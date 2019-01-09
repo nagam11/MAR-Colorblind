@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿// Script attached to AR Camera
+using UnityEngine;
 
 [ExecuteInEditMode, AddComponentMenu("Image Effects/ColorBlindr")]
 [RequireComponent(typeof(Camera))]

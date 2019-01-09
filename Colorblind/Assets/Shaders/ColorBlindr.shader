@@ -1,4 +1,6 @@
-﻿Shader "Hidden/ColorBlindr"
+﻿//Copyright: https://github.com/Chman/ColorBlindr
+
+Shader "Hidden/ColorBlindr"
 {
 	Properties
 	{
@@ -14,7 +16,6 @@
 		float _Strength;
 
 		// Adapted from http://colororacle.org/ algorithms
-		// Highly unoptimized shaders but they're intended to be used in the editor only so who cares
 
 		float3 rgb2lin(float3 c) { return (0.992052 * pow(c, 2.2) + 0.003974) * 128.498039; }
 		float3 lin2rgb(float3 c) { return pow(c, 0.45454545); }

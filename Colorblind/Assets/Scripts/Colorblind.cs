@@ -1,11 +1,13 @@
-﻿using UnityEngine;
+﻿// Script attached to AR Camera
+using UnityEngine;
 using System.Collections;
 [ExecuteInEditMode]
 public class Colorblind : MonoBehaviour
 {
     public enum Blindness { normal, protanopia, deuteranopia, tritanopia }
-    [Tooltip("Deuteranopia is the most common, affecting 8% of men. Protanopia is rare, affecting 2.6% of men. Tritanopia is extremely rare, affecting less than 0.1% of men. All kinds of colorblindness affect less than 1% of women.")]
     public Blindness blindness = Blindness.normal;
+    // The attribute prevents the camera from rendering the correction in the whole frame if the magnifying glass is used.
+    public static int full_Screen = 1;
 
     Vector3 normalRed = new Vector3(1.00f, 0.00f, 0.00f);
     Vector3 normalGreen = new Vector3(0.00f, 1.00f, 0.00f);
@@ -23,8 +25,8 @@ public class Colorblind : MonoBehaviour
     private Material material;
 
     void Awake()
-    {
-        material = new Material(Shader.Find("Hidden/MatrixShader"));
+    {       
+        material = new Material(Shader.Find("SimulationCamera"));
     }
 
     // Postprocess the image
@@ -58,7 +60,7 @@ public class Colorblind : MonoBehaviour
         }
 
         material.SetFloat("_rr", toRed.x);
-        material.SetFloat("_gr", toRed.y);
+        material.SetFloat("_gr", toRed.y);       
         material.SetFloat("_br", toRed.z);
         material.SetFloat("_rg", toGreen.x);
         material.SetFloat("_gg", toGreen.y);
@@ -66,6 +68,7 @@ public class Colorblind : MonoBehaviour
         material.SetFloat("_rb", toBlue.x);
         material.SetFloat("_gb", toBlue.y);
         material.SetFloat("_bb", toBlue.z);
+        material.SetInt("fullScreen", full_Screen);
         Graphics.Blit(source, destination, material);
     }
 
