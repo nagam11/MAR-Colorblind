@@ -37,6 +37,7 @@ public class MagnifyingGlass : MonoBehaviour
         Vector3 toGreen = Vector3.zero;
         Vector3 toBlue = Vector3.zero;
         // Change the rendering of the magnifying glass according to the blindness type selected in the AR Camera.
+        //TODO: doesn't work with normal vision. it needs parameters of which colorblind has to simulate
         switch (GameObject.Find("ARCamera").GetComponent<Colorblind>().blindness)
         {
             case Colorblind.Blindness.protanopia:

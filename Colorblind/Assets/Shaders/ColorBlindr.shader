@@ -1,11 +1,9 @@
-﻿//Copyright: https://github.com/Chman/ColorBlindr
-
-Shader "Hidden/ColorBlindr"
+﻿Shader "Hidden/ColorBlindr"
 {
 	Properties
 	{
 		_MainTex ("Base (RGB)", 2D) = "white" {}
-		_Strength ("Blindness Strength (Float)", Float) = 1.0
+		_Strength ("Blindness Strength (Float)", Float) = 0.8
 	}
 
 	CGINCLUDE
@@ -16,12 +14,22 @@ Shader "Hidden/ColorBlindr"
 		float _Strength;
 
 		// Adapted from http://colororacle.org/ algorithms
+		// Highly unoptimized shaders but they're intended to be used in the editor only so who cares
+		
+		//http://www.brucelindbloom.com/index.html?Eqn_RGB_XYZ_Matrix.html
 
-		float3 rgb2lin(float3 c) { return (0.992052 * pow(c, 2.2) + 0.003974) * 128.498039; }
-		float3 lin2rgb(float3 c) { return pow(c, 0.45454545); }
 
+		float3 rgb2lin(float3 c) { 
+			// return (0.992052 * GammaToLinearSpace(c) + 0.003974) * 128.498039; 
+			return(GammaToLinearSpace(c));
+		}
+		float3 lin2rgb(float3 c) { return LinearToGammaSpace(c); }
+
+		float mymax(float a, float b) { return (a > b ? a : b); }
+		float mymin(float a, float b) { return (a < b ? a : b); }
 		float3 rgFilter(float3 color, float k1, float k2, float k3)
 		{
+			/*
 			color = saturate(color);
 			float3 c_lin = rgb2lin(color);
 					
@@ -31,6 +39,92 @@ Shader "Hidden/ColorBlindr"
 			b_blind = saturate(b_blind);
 
 			return lerp(color, lin2rgb(float3(r_blind, r_blind, b_blind)), _Strength);
+			*/
+
+			/*
+			proto
+			0.1139    0.8990    0.0066   r
+			0.1064    0.8400   -0.0050 x g
+			0.0119    0.0554    1.0066   b
+			*/
+			/*
+			proto2
+			0.1077    0.8499    0.0021   r
+			0.1005    0.7933   -0.0093 x g
+			0.0207    0.1242    1.0143   b
+			*/
+			/*
+			RGBtoProt =
+
+				0.1127    0.8891    0.0196
+				0.1124    0.8878    0.0001
+			   -0.0166   -0.1311   -0.0114
+
+
+			RGBtodeut =
+
+				0.3030    0.7336    0.0222
+				0.2887    0.6974   -0.0008
+			   -0.0427   -0.1040   -0.0113
+
+
+			RGBtotrit =
+
+				0.4238    0.5420    0.0175
+				0.5020    0.5304    0.0024
+			   -0.0389   -0.1100   -0.0115
+			*/
+
+			color = saturate(color);
+			float3 c_lin = rgb2lin(color);
+			
+			float r_blind = 0.1139 * c_lin.r + 0.8990 * c_lin.g + 0.0066 * c_lin.b;
+			float g_blind = 0.1064 * c_lin.r + 0.8400 * c_lin.g + -0.0050 * c_lin.b;
+			float b_blind = 0.0119 * c_lin.r + 0.0554 * c_lin.g + 1.0066 * c_lin.b;
+			/*
+			float r_blind = 0.1077 * c_lin.r + 0.8499 * c_lin.g + 0.0021 * c_lin.b;
+			float g_blind = 0.1005 * c_lin.r + 0.7933 * c_lin.g + -0.0093 * c_lin.b;
+			float b_blind = 0.0207 * c_lin.r + 0.1242 * c_lin.g + 1.0143 * c_lin.b;
+			*/
+			float err_r = c_lin.r - r_blind;
+			float err_g = c_lin.g - g_blind;
+			float err_b = c_lin.b - b_blind;
+
+
+			float g_shift = 0.7 * err_r + err_g;
+			float b_shift = 0.7 * err_r + err_b;
+
+			//r_blind = c_lin.r;
+			g_blind = c_lin.g + g_shift;
+			b_blind = c_lin.b + b_shift;
+
+			/*
+			r_blind = saturate(r_blind);
+			g_blind = saturate(g_blind);
+			b_blind = saturate(b_blind);
+			*/
+			
+			float3 color2 = lin2rgb(float3(r_blind, g_blind, b_blind));
+			
+			// float err_r = mymax(c_lin.r, r_blind) - mymin(c_lin.r, r_blind);
+			// float err_g = mymax(c_lin.g, g_blind) - mymin(c_lin.g, g_blind);
+			// float err_b = mymax(c_lin.b,b_blind) - mymin(c_lin.b, b_blind);
+			/*
+			float err_r = c_lin.r - r_blind;
+			float err_g = c_lin.g - g_blind;
+			float err_b = c_lin.b - b_blind;
+
+			
+			float g_shift = 0.7 * err_r + err_g;
+			float b_shift = 0.7 * err_r + err_b;
+
+			r_blind = c_lin.r;
+			g_blind = c_lin.g + g_shift;
+			b_blind = c_lin.b + b_shift;
+			*/
+			
+			return lerp(color, color2, _Strength);
+
 		}
 
 		float3 tritanFilter(float3 color)
