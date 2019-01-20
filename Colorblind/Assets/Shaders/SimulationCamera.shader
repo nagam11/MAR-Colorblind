@@ -10,6 +10,8 @@ Shader "SimulationCamera" {
         _br("Blue -> Red", Range(-1, 1)) = 0
         _bg("Blue -> Green", Range(-1, 1)) = 0
         _bb("Blue -> Blue", Range(-1, 1)) = 0
+
+
     }
     SubShader{
         // Set ZWrite Off for transparent effects
@@ -40,11 +42,20 @@ Shader "SimulationCamera" {
                 float3 color = tex2D(_MainTex, i.uv).rgb;
 
                 color = saturate(color);
-				color = GammaToLinearSpace(color);
+				//color = GammaToLinearSpace(color);
+				
+				/*
+				float r2 = color.r * 17.8824 + color.g * 43.5161 + color.b * 4.11935;
+				float g2 = color.r * 3.45565 + color.g * 27.1554 + color.b * 3.86714;
+				float b2 = color.r * 0.0299566 + color.g * 0.184309 + color.b * 1.46709;
+				float3 v = float3(r2, g2, b2);
+				v = saturate(v);
+				*/
 
 				r = color.r * _rr + color.g * _gr + color.b * _br;
 				g = color.r * _rg + color.g * _gg + color.b * _bg;
 				b = color.r * _rb + color.g * _gb + color.b * _bb;
+
 				// Put textures for the whole camera view only on fullScreen mode.
 				if(fullScreen == 1) {
 					/*
@@ -66,8 +77,12 @@ Shader "SimulationCamera" {
 					//r_blind = c_lin.r;
 					g = color.g + g_shift;
 					b = color.b + b_shift;
+
+
                 } 
-                c.rgb = LinearToGammaSpace(float3(r, g, b));
+				c.rgb = (saturate(float3(r, g, b)));
+				//c.rgb = (LinearToGammaSpace(float3(r, g, b)));
+
                 return c;
             }
             ENDCG
