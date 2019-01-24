@@ -118,6 +118,18 @@ Simulation of Color Vision Deficiency.
     Vector3 tritanomalyGreen100 = new Vector3(-0.078411f, 0.930809f, 0.147602f);
     Vector3 tritanomalyBlue100 = new Vector3(0.004733f, 0.691367f, 0.3039f);
 
+    Vector3 protanomalyErrMapRed = new Vector3(0f, 0f, 0f);
+    Vector3 protanomalyErrMapGreen = new Vector3(0.7f, 1f, 0f);
+    Vector3 protanomalyErrMapBlue = new Vector3(0.7f, 0f, 1f);
+
+    Vector3 deuteranomalyErrMapRed = new Vector3(1f, 0.7f, 0f);
+    Vector3 deuteranomalyErrMapGreen = new Vector3(0f, 0f, 0f);
+    Vector3 deuteranomalyErrMapBlue = new Vector3(0f, 0.7f, 1f);
+
+    Vector3 tritanomalyErrMapRed = new Vector3(1f, 0f, 0.7f);
+    Vector3 tritanomalyErrMapGreen = new Vector3(0f, 1f, 0.7f);
+    Vector3 tritanomalyErrMapBlue = new Vector3(0f, 0f, 0f);
+
     private Renderer rend;
 
     // Use this for initialization
@@ -132,13 +144,19 @@ Simulation of Color Vision Deficiency.
         Vector3 toRed = Vector3.zero;
         Vector3 toGreen = Vector3.zero;
         Vector3 toBlue = Vector3.zero;
-        int Strength = GameObject.Find("ARCamera").GetComponent<Colorblind>().Strength * 10;
+        Vector3 toErrRed = Vector3.zero;
+        Vector3 toErrGreen = Vector3.zero;
+        Vector3 toErrBlue = Vector3.zero;
+        int Strength = GameObject.Find("ARCamera").GetComponent<Colorblind>().Strength;
         // Change the rendering of the magnifying glass according to the blindness type selected in the AR Camera.
         //TODO: doesn't work with normal vision. it needs parameters of which colorblind has to simulate
         switch (GameObject.Find("ARCamera").GetComponent<Colorblind>().blindness)
         {
             case Colorblind.Blindness.protanopia:
-                switch (Strength)
+                toErrRed = protanomalyErrMapRed;
+                toErrGreen = protanomalyErrMapGreen;
+                toErrBlue = protanomalyErrMapBlue;
+                switch (Strength * 10)
                 {
                     case 10:
                         toRed = protanomalyRed10;
@@ -198,7 +216,10 @@ Simulation of Color Vision Deficiency.
                 }
                 break;
             case Colorblind.Blindness.deuteranopia:
-                switch (Strength)
+                toErrRed = deuteranomalyErrMapRed;
+                toErrGreen = deuteranomalyErrMapGreen;
+                toErrBlue = deuteranomalyErrMapBlue;
+                switch (Strength * 10)
                 {
                     case 10:
                         toRed = deuteranomalyRed10;
@@ -258,7 +279,10 @@ Simulation of Color Vision Deficiency.
                 }
                 break;
             case Colorblind.Blindness.tritanopia:
-                switch (Strength)
+                toErrRed = tritanomalyErrMapRed;
+                toErrGreen = tritanomalyErrMapGreen;
+                toErrBlue = tritanomalyErrMapBlue;
+                switch (Strength * 10)
                 {
                     case 10:
                         toRed = tritanomalyRed10;
@@ -317,13 +341,13 @@ Simulation of Color Vision Deficiency.
                         break;
                 }
                 break;
-        default:
-            toRed = normalRed;
-            toGreen = normalGreen;
-            toBlue = normalBlue;
-            break;
+            default:
+                toRed = normalRed;
+                toGreen = normalGreen;
+                toBlue = normalBlue;
+                break;
         }
-        // Set material of render to the selected blindness type
+
         rend.material.SetFloat("_rr", toRed.x);
         rend.material.SetFloat("_gr", toRed.y);
         rend.material.SetFloat("_br", toRed.z);
@@ -333,5 +357,15 @@ Simulation of Color Vision Deficiency.
         rend.material.SetFloat("_rb", toBlue.x);
         rend.material.SetFloat("_gb", toBlue.y);
         rend.material.SetFloat("_bb", toBlue.z);
+
+        rend.material.SetFloat("_err", toErrRed.x);
+        rend.material.SetFloat("_egr", toErrRed.y);
+        rend.material.SetFloat("_ebr", toErrRed.z);
+        rend.material.SetFloat("_erg", toErrGreen.x);
+        rend.material.SetFloat("_egg", toErrGreen.y);
+        rend.material.SetFloat("_ebg", toErrGreen.z);
+        rend.material.SetFloat("_erb", toErrBlue.x);
+        rend.material.SetFloat("_egb", toErrBlue.y);
+        rend.material.SetFloat("_ebb", toErrBlue.z);
     }
 }

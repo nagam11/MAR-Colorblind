@@ -3,14 +3,23 @@ Shader "MagnifyingGlass"
 {
 Properties{
         _MainTex("Base (RGB)", 2D) = "white" {}
-        _rg("Red -> Green", Range(-1, 1)) = 0
-        _rb("Red -> Blue", Range(-1, 1)) = 0
-        _gr("Green -> Red", Range(-1, 1)) = 0
-        _gg("Green -> Green", Range(-1, 1)) = 0
-        _gb("Green -> Blue", Range(-1, 1)) = 0
-        _br("Blue -> Red", Range(-1, 1)) = 0
-        _bg("Blue -> Green", Range(-1, 1)) = 0
-        _bb("Blue -> Blue", Range(-1, 1)) = 0
+        _rg("Red -> Green", Range(0, 1)) = 0
+        _rb("Red -> Blue", Range(0, 1)) = 0
+        _gr("Green -> Red", Range(0, 1)) = 0
+        _gg("Green -> Green", Range(0, 1)) = 0
+        _gb("Green -> Blue", Range(0, 1)) = 0
+        _br("Blue -> Red", Range(0, 1)) = 0
+        _bg("Blue -> Green", Range(0, 1)) = 0
+        _bb("Blue -> Blue", Range(0, 1)) = 0
+
+		_erg("Red -> Green", Range(0, 1)) = 0
+		_erb("Red -> Blue", Range(0, 1)) = 0
+		_egr("Green -> Red", Range(0, 1)) = 0
+		_egg("Green -> Green", Range(0, 1)) = 0
+		_egb("Green -> Blue", Range(0, 1)) = 0
+		_ebr("Blue -> Red", Range(0, 1)) = 0
+		_ebg("Blue -> Green", Range(0, 1)) = 0
+		_ebb("Blue -> Blue", Range(0, 1)) = 0
     }
     SubShader
     {
@@ -38,6 +47,15 @@ Properties{
             uniform float _rb;
             uniform float _gb;
             uniform float _bb;
+			uniform float _err;
+			uniform float _egr;
+			uniform float _ebr;
+			uniform float _erg;
+			uniform float _egg;
+			uniform float _ebg;
+			uniform float _erb;
+			uniform float _egb;
+			uniform float _ebb;
             float r;
             float g;
             float b;
@@ -64,7 +82,7 @@ Properties{
                 float3 color = c.rgb;
                 color = saturate(color);
 
-				//color = GammaToLinearSpace(color);
+				color = GammaToLinearSpace(color);
 
 				//TODO: doesn't work with normal vision. it needs parameters of which colorblind has to simulate
 				
@@ -76,16 +94,23 @@ Properties{
 				float err_g = color.g - g;
 				float err_b = color.b - b;
 
+				float err_rate = 3;
 
-				float g_shift = 0.7 * err_r + err_g;
-				float b_shift = 0.7 * err_r + err_b;
+				err_r *= err_rate;
+				err_g *= err_rate;
+				err_b *= err_rate;
 
-				//r_blind = c_lin.r;
+
+				float r_shift = err_r * _err + err_g * _egr + err_b * _ebr;
+				float g_shift = err_r * _erg + err_g * _egg + err_b * _ebg;
+				float b_shift = err_r * _erb + err_g * _egb + err_b * _ebb;
+
+				r = color.r + r_shift;
 				g = color.g + g_shift;
 				b = color.b + b_shift;
 
-				c.rgb = (saturate(float3(r, g, b)));
-				//c.rgb = LinearToGammaSpace(float3(r, g, b));
+				//c.rgb = (saturate(float3(err_r, err_g, err_b)));
+				c.rgb = LinearToGammaSpace(saturate(float3(r, g, b)));
                 return c;
             }
             ENDCG

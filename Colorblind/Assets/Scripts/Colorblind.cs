@@ -118,6 +118,18 @@ public class Colorblind : MonoBehaviour
     Vector3 tritanomalyGreen100 = new Vector3(-0.078411f, 0.930809f, 0.147602f);
     Vector3 tritanomalyBlue100 = new Vector3(0.004733f, 0.691367f, 0.3039f);
 
+    Vector3 protanomalyErrMapRed = new Vector3(0f, 0f, 0f);
+    Vector3 protanomalyErrMapGreen = new Vector3(0.7f, 1f, 0f);
+    Vector3 protanomalyErrMapBlue = new Vector3(0.7f, 0f, 1f);
+
+    Vector3 deuteranomalyErrMapRed = new Vector3(1f, 0.7f, 0f);
+    Vector3 deuteranomalyErrMapGreen = new Vector3(0f, 0f, 0f);
+    Vector3 deuteranomalyErrMapBlue = new Vector3(0f, 0.7f, 1f);
+
+    Vector3 tritanomalyErrMapRed = new Vector3(1f, 0f, 0.7f);
+    Vector3 tritanomalyErrMapGreen = new Vector3(0f, 1f, 0.7f);
+    Vector3 tritanomalyErrMapBlue = new Vector3(0f, 0f, 0f);
+
     private Material material;
 
 void Awake()
@@ -127,14 +139,20 @@ material = new Material(Shader.Find("SimulationCamera"));
 
 // Postprocess the image
 void OnRenderImage(RenderTexture source, RenderTexture destination)
-{
-Vector3 toRed = Vector3.zero;
-Vector3 toGreen = Vector3.zero;
-Vector3 toBlue = Vector3.zero;
-switch (blindness)
+    {
+        Vector3 toRed = Vector3.zero;
+        Vector3 toGreen = Vector3.zero;
+        Vector3 toBlue = Vector3.zero;
+        Vector3 toErrRed = Vector3.zero;
+        Vector3 toErrGreen = Vector3.zero;
+        Vector3 toErrBlue = Vector3.zero;
+        switch (blindness)
         {
-    case Blindness.protanopia:
-        switch(Strength*10)
+        case Blindness.protanopia:
+            toErrRed = protanomalyErrMapRed;
+            toErrGreen = protanomalyErrMapGreen;
+            toErrBlue = protanomalyErrMapBlue;
+                switch (Strength*10)
                 {
                     case 10:
                         toRed = protanomalyRed10;
@@ -194,6 +212,9 @@ switch (blindness)
                 }
         break;
     case Blindness.deuteranopia:
+                toErrRed = deuteranomalyErrMapRed;
+                toErrGreen = deuteranomalyErrMapGreen;
+                toErrBlue = deuteranomalyErrMapBlue;
                 switch (Strength*10)
                 {
                     case 10:
@@ -254,6 +275,9 @@ switch (blindness)
                 }
             break;
     case Blindness.tritanopia:
+                toErrRed = tritanomalyErrMapRed;
+                toErrGreen = tritanomalyErrMapGreen;
+                toErrBlue = tritanomalyErrMapBlue;
                 switch (Strength*10)
                 {
                     case 10:
@@ -318,20 +342,31 @@ switch (blindness)
             toGreen = normalGreen;
             toBlue = normalBlue;
         break;    
-}
+    }
 
-material.SetFloat("_rr", toRed.x);
-material.SetFloat("_gr", toRed.y);       
-material.SetFloat("_br", toRed.z);
-material.SetFloat("_rg", toGreen.x);
-material.SetFloat("_gg", toGreen.y);
-material.SetFloat("_bg", toGreen.z);
-material.SetFloat("_rb", toBlue.x);
-material.SetFloat("_gb", toBlue.y);
-material.SetFloat("_bb", toBlue.z);
-material.SetInt("fullScreen", full_Screen);
-material.SetInt("Blindness Strength (Int)", Strength);
-Graphics.Blit(source, destination, material);
+        material.SetFloat("_rr", toRed.x);
+        material.SetFloat("_gr", toRed.y);
+        material.SetFloat("_br", toRed.z);
+        material.SetFloat("_rg", toGreen.x);
+        material.SetFloat("_gg", toGreen.y);
+        material.SetFloat("_bg", toGreen.z);
+        material.SetFloat("_rb", toBlue.x);
+        material.SetFloat("_gb", toBlue.y);
+        material.SetFloat("_bb", toBlue.z);
+
+        material.SetFloat("_err", toErrRed.x);
+        material.SetFloat("_egr", toErrRed.y);
+        material.SetFloat("_ebr", toErrRed.z);
+        material.SetFloat("_erg", toErrGreen.x);
+        material.SetFloat("_egg", toErrGreen.y);
+        material.SetFloat("_ebg", toErrGreen.z);
+        material.SetFloat("_erb", toErrBlue.x);
+        material.SetFloat("_egb", toErrBlue.y);
+        material.SetFloat("_ebb", toErrBlue.z);
+
+        material.SetInt("fullScreen", full_Screen);
+        material.SetInt("Blindness Strength (Int)", Strength);
+        Graphics.Blit(source, destination, material);
 }
 
 public void NextMode()
@@ -343,4 +378,3 @@ blindness = (Blindness)(
 
 }
 }
- 
