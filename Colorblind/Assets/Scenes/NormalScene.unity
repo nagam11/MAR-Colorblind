@@ -476,7 +476,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d00f6066a3a54c89af863f7652211c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blindness: 2
+  blindness: 0
   Strength: 10
 --- !u!114 &197480603
 MonoBehaviour:

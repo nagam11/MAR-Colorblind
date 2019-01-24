@@ -205,9 +205,9 @@ void OnRenderImage(RenderTexture source, RenderTexture destination)
                         toBlue = protanomalyBlue100;
                         break;
                     default:
-                        toRed = normalRed;
-                        toGreen = normalGreen;
-                        toBlue = normalBlue;
+                        toRed = protanomalyRed100;
+                        toGreen = protanomalyGreen100;
+                        toBlue = protanomalyBlue100;
                         break;
                 }
         break;
@@ -268,9 +268,9 @@ void OnRenderImage(RenderTexture source, RenderTexture destination)
                         toBlue = deuteranomalyBlue100;
                         break;
                     default:
-                        toRed = normalRed;
-                        toGreen = normalGreen;
-                        toBlue = normalBlue;
+                        toRed = deuteranomalyRed100;
+                        toGreen = deuteranomalyGreen100;
+                        toBlue = deuteranomalyBlue100;
                         break;
                 }
             break;
@@ -331,9 +331,9 @@ void OnRenderImage(RenderTexture source, RenderTexture destination)
                             toBlue = tritanomalyBlue100;
                             break;
                     default:
-                        toRed = normalRed;
-                        toGreen = normalGreen;
-                        toBlue = normalBlue;
+                        toRed = tritanomalyRed100;
+                        toGreen = tritanomalyGreen100;
+                        toBlue = tritanomalyBlue100;
                         break;
                 }
                 break;

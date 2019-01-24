@@ -209,9 +209,9 @@ Simulation of Color Vision Deficiency.
                         toBlue = protanomalyBlue100;
                         break;
                     default:
-                        toRed = normalRed;
-                        toGreen = normalGreen;
-                        toBlue = normalBlue;
+                        toRed = protanomalyRed100;
+                        toGreen = protanomalyGreen100;
+                        toBlue = protanomalyBlue100;
                         break;
                 }
                 break;
@@ -272,9 +272,9 @@ Simulation of Color Vision Deficiency.
                         toBlue = deuteranomalyBlue100;
                         break;
                     default:
-                        toRed = normalRed;
-                        toGreen = normalGreen;
-                        toBlue = normalBlue;
+                        toRed = deuteranomalyRed100;
+                        toGreen = deuteranomalyGreen100;
+                        toBlue = deuteranomalyBlue100;
                         break;
                 }
                 break;
@@ -335,9 +335,9 @@ Simulation of Color Vision Deficiency.
                         toBlue = tritanomalyBlue100;
                         break;
                     default:
-                        toRed = normalRed;
-                        toGreen = normalGreen;
-                        toBlue = normalBlue;
+                        toRed = tritanomalyRed100;
+                        toGreen = tritanomalyGreen100;
+                        toBlue = tritanomalyBlue100;
                         break;
                 }
                 break;
