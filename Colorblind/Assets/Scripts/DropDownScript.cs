@@ -34,6 +34,7 @@ public class DropDownScript : MonoBehaviour
     void Start()
     {
         PopulateList();
+        GameObject.Find("ARCamera").GetComponent<Colorblind>().blindness = Colorblind.Blindness.normal;
     }
 
     // Update is called once per frame

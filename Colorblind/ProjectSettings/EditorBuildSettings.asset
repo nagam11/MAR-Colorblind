@@ -52,8 +52,8 @@ EditorBuildSettings:
     guid: b06346b469c934288bdad920c1676113
   - enabled: 1
     path: Assets/Scenes/NormalScene.unity
-    guid: 0b0c06f88fb69344d81646b59f2a78b4
+    guid: 2d84920256b2cdd4f97a33070c098cb2
   - enabled: 0
     path: 
-    guid: f2dad7611a389ca4497b38680d6812fd
+    guid: 00000000000000000000000000000000
   m_configObjects: {}
