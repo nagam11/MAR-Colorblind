@@ -52,10 +52,11 @@ public class spawner : MonoBehaviour
         {
             if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
             {
-                Vector3 p = nonVRCamera.ScreenToWorldPoint(new Vector3(Input.GetTouch(0).position.x, Input.GetTouch(0).position.y, 5f));
+                Vector3 p = nonVRCamera.ScreenToWorldPoint(new Vector3((Input.GetTouch(0).position.x+20), (Input.GetTouch(0).position.y+20), 5f));
                 print(p);
 
-                //p.y = p.y + 20;
+                //p.y = p.y + 15;
+                //p.x = p.x + 15;
                 clone = Instantiate(cube, p, Quaternion.identity) as GameObject;
 
 
