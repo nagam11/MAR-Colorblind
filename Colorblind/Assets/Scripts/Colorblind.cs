@@ -137,6 +137,11 @@ void Awake()
 material = new Material(Shader.Find("SimulationCamera"));
 }
 
+public float changeStrength {
+        get { return Strength; }
+        set { Strength = (int) value; }
+    }
+
 // Postprocess the image
 void OnRenderImage(RenderTexture source, RenderTexture destination)
     {

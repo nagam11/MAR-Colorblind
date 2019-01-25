@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DropDownScript : MonoBehaviour
+public class AnomalyType : MonoBehaviour
 {
 
     List<string> names = new List<string>() { "Select an Option", "Deutranopia", "Protanopia", "Tritanopia" };
