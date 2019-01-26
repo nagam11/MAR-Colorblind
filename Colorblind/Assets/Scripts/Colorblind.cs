@@ -7,7 +7,7 @@ public class Colorblind : MonoBehaviour
     public enum Blindness { normal, protanopia, deuteranopia, tritanopia }
     public Blindness blindness = Blindness.normal;
     // The attribute prevents the camera from rendering the correction in the whole frame if the magnifying glass is used.
-    public static int full_Screen = 1;
+    public static int full_Screen = 0;
 
     [Range(1,10)]
     public int Strength = 10;

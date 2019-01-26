@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 
-public class backController : MonoBehaviour
+public class BackController : MonoBehaviour
 {
     public void goBack()
     {

@@ -2,10 +2,10 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CorrectionMethod : MonoBehaviour
+public class ScreenMode : MonoBehaviour
 {
 
-    List<string> correction_methods = new List<string>() { "Select an Option", "Daltonization", "ColorPopper", "Texture" };
+    List<string> screen_mode = new List<string>() { "Select an Option", "Full Screen", "Magnifying glass"};
 
     public Dropdown dropdown;
 
@@ -14,28 +14,23 @@ public class CorrectionMethod : MonoBehaviour
     {
         if (index == 1)
         {
-
-            
+            Colorblind.full_Screen = 1;
         }
         else if (index == 2)
         {
-               
-
-        }
-        else if (index == 3)
-        {
-           
-        }
+            Colorblind.full_Screen = 0;
+        }       
         else
         {
-           
+           // Do nothing. Use the same screen mode as before.
         }
     }
 
     void Start()
     {
         PopulateList();
-        //TODO : set correction method from here
+        // App starts in magnifying glass mode.
+        Colorblind.full_Screen = 0;
     }
 
     void Update()
@@ -44,6 +39,6 @@ public class CorrectionMethod : MonoBehaviour
     }
     void PopulateList()
     {
-        dropdown.AddOptions(correction_methods);
+        dropdown.AddOptions(screen_mode);
     }
 }

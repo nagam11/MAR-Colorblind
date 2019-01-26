@@ -2,6 +2,7 @@
 Shader "SimulationCamera" {
     Properties{
         _MainTex("Base (RGB)", 2D) = "white" {}
+        _bwBlend ("Black & White blend", Range (0, 1)) = 0.8
 		_rg("Red -> Green", Range(0, 1)) = 0
 		_rb("Red -> Blue", Range(0, 1)) = 0
 		_gr("Green -> Red", Range(0, 1)) = 0
@@ -31,6 +32,7 @@ Shader "SimulationCamera" {
             #include "UnityCG.cginc"
 
             uniform sampler2D _MainTex;
+            uniform float _bwBlend;
             uniform float _rr;
             uniform float _gr;
             uniform float _br;
@@ -56,6 +58,25 @@ Shader "SimulationCamera" {
             float r;
             float g;
             float b;
+            // All components are in the range [0…1], including hue.
+            float3 rgb2hsv(float3 c)
+            {
+                float4 K = float4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
+                float4 p = lerp(float4(c.bg, K.wz), float4(c.gb, K.xy), step(c.b, c.g));
+                float4 q = lerp(float4(p.xyw, c.r), float4(c.r, p.yzx), step(p.x, c.r));
+
+                float d = q.x - min(q.w, q.y);
+                float e = 1.0e-10;
+                return float3(abs(q.z + (q.w - q.y) / (6.0 * d + e)), d / (q.x + e), q.x);
+            }
+            // All components are in the range [0…1], including hue.
+            float3 hsv2rgb(float3 c)
+            {
+                float4 K = float4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
+                float3 p = abs(frac(c.xxx + K.xyz) * 6.0 - K.www);
+                return c.z * lerp(K.xxx, saturate(p - K.xxx), c.y);
+            }
+           
             
             float4 frag(v2f_img i) : COLOR{
                 float4 c = tex2D(_MainTex, i.uv);
@@ -78,14 +99,7 @@ Shader "SimulationCamera" {
 
 				// Put textures for the whole camera view only on fullScreen mode.
 				if(fullScreen == 1) {
-					/*
-					//TODO: render new texture for specific pixels here. Use HSV for finding specific colors.
-					if (color.r > 0.388 & color.g < 0.079 & color.b < 0.079 ){
-                        r = 0.0;
-                        g = 0.0;
-                        b = 1.0;
-                    }
-                	*/
+                	
 					float err_r = color.r - r;
 					float err_g = color.g - g;
 					float err_b = color.b - b;
@@ -108,7 +122,23 @@ Shader "SimulationCamera" {
                 } 
 				//c.rgb = (saturate(float3(r, g, b)));
 				c.rgb = (LinearToGammaSpace(saturate(float3(r, g, b))));
-
+                
+                    //TODO: render new texture for specific pixels here. Use HSV for finding specific colors.
+                    float3 hsv_color = rgb2hsv(color);
+                    //if((hsv_color.x < 0.034 || hsv_color.x > 0.971) && (hsv_color.y > 0.78) && (hsv_color.z > 0.84) ) {
+                    if((hsv_color.x < 0.034 || hsv_color.x > 0.971) && (hsv_color.y > 0.78) && (hsv_color.z > 0.30) ) {
+                         r = 0.0;
+                         g = 0.0;
+                         b = 1.0;
+                         c.rgb = float3(r, g, b);
+                    } else {
+                     //float lum = color.r*.3 + color.g*.59 + color.b*.11;
+                     //float3 bw = float3( lum, lum, lum ); 
+                     //float4 result = c;
+                     //result.rgb = lerp(c.rgb, bw, _bwBlend);
+                     //c.rgb = result.rgb;
+                    }
+                    
                 return c;
             }
             ENDCG
