@@ -3,22 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-
-public class SettingsMenuScript : MonoBehaviour
+public class MenuController : MonoBehaviour
 {
-    public void OpenSettings()
+
+    public void LoadSimulation()
     {
-        SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene("SimulatorScene");
+    }
+
+    public void LoadNormal()
+    {
+        SceneManager.LoadScene("NormalScene");
     }
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }

@@ -8,8 +8,8 @@ public class Colorblind : MonoBehaviour
     public Blindness blindness = Blindness.normal;
     // The attribute prevents the camera from rendering the correction in the whole frame if the magnifying glass is used.
     // TODO: BUG??
-    public static int full_Screen = 1;
-    public static int correction_Method = 0;
+    public static int full_Screen;
+    public static int correction_Method;
 
     [Range(1,10)]
     public int Strength = 10;
@@ -372,7 +372,9 @@ void OnRenderImage(RenderTexture source, RenderTexture destination)
         material.SetFloat("_ebb", toErrBlue.z);
 
         material.SetInt("fullScreen", full_Screen);
+        //print(full_Screen);
         material.SetInt("correctionMethod", correction_Method);
+        print(correction_Method);
         material.SetInt("Blindness Strength (Int)", Strength);
         Graphics.Blit(source, destination, material);
 }

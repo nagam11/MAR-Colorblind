@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ScreenMode : MonoBehaviour
+public class ScreenModeDropDown : MonoBehaviour
 {
 
     List<string> screen_mode = new List<string>() { "Select an Option", "Full Screen", "Magnifying glass"};
@@ -22,7 +22,7 @@ public class ScreenMode : MonoBehaviour
         }       
         else
         {
-           // Do nothing. Use the same screen mode as before.
+            // Do nothing. Use the same screen mode as before.
         }
     }
 

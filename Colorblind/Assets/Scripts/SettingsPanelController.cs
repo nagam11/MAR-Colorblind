@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Settings_Panel : MonoBehaviour
+public class SettingsPanelController : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()

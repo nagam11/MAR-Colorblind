@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CorrectionMethod : MonoBehaviour
+public class CorrectionMethodDropDown : MonoBehaviour
 {
 
     List<string> correction_methods = new List<string>() { "Select an Option", "Daltonization", "ColorPopper", "Texture" };
@@ -26,14 +26,14 @@ public class CorrectionMethod : MonoBehaviour
         else
         {
             // TODO: Is Daltonization the standard one
-            Colorblind.correction_Method = 0;
+            //Colorblind.correction_Method = 0;
         }
     }
 
     void Start()
     {
         PopulateList();
-        Colorblind.correction_Method = 0;
+        Colorblind.correction_Method = 2;
     }
 
     void Update()
