@@ -7,7 +7,9 @@ public class Colorblind : MonoBehaviour
     public enum Blindness { normal, protanopia, deuteranopia, tritanopia }
     public Blindness blindness = Blindness.normal;
     // The attribute prevents the camera from rendering the correction in the whole frame if the magnifying glass is used.
-    public static int full_Screen = 0;
+    // TODO: BUG??
+    public static int full_Screen = 1;
+    public static int correction_Method = 0;
 
     [Range(1,10)]
     public int Strength = 10;
@@ -370,15 +372,16 @@ void OnRenderImage(RenderTexture source, RenderTexture destination)
         material.SetFloat("_ebb", toErrBlue.z);
 
         material.SetInt("fullScreen", full_Screen);
+        material.SetInt("correctionMethod", correction_Method);
         material.SetInt("Blindness Strength (Int)", Strength);
         Graphics.Blit(source, destination, material);
 }
 
 public void NextMode()
 {
-var length = System.Enum.GetNames(typeof(Blindness)).Length;
-blindness = (Blindness)(
-    ((int)blindness + 1) % length
+    var length = System.Enum.GetNames(typeof(Blindness)).Length;
+    blindness = (Blindness)(
+        ((int)blindness + 1) % length
 );
 
 }

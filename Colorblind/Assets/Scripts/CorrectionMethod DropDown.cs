@@ -9,33 +9,31 @@ public class CorrectionMethod : MonoBehaviour
 
     public Dropdown dropdown;
 
-    //TODO: change correction methods here
     public void DropDown_IndexChanged(int index)
     {
         if (index == 1)
         {
-
-            
+            Colorblind.correction_Method = 0;
         }
         else if (index == 2)
         {
-               
-
+            Colorblind.correction_Method = 1;
         }
         else if (index == 3)
         {
-           
+            Colorblind.correction_Method = 2;
         }
         else
         {
-           
+            // TODO: Is Daltonization the standard one
+            Colorblind.correction_Method = 0;
         }
     }
 
     void Start()
     {
         PopulateList();
-        //TODO : set correction method from here
+        Colorblind.correction_Method = 0;
     }
 
     void Update()

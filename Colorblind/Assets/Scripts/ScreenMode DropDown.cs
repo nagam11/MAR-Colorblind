@@ -29,8 +29,9 @@ public class ScreenMode : MonoBehaviour
     void Start()
     {
         PopulateList();
-        // App starts in magnifying glass mode.
-        Colorblind.full_Screen = 0;
+        // App starts in magnifying glass mode. 
+        //TODO: stays in full screen mode always ?!
+        Colorblind.full_Screen = 1;
     }
 
     void Update()

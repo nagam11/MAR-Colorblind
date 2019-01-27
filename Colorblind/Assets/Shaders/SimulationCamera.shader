@@ -2,7 +2,8 @@
 Shader "SimulationCamera" {
     Properties{
         _MainTex("Base (RGB)", 2D) = "white" {}
-        _bwBlend ("Black & White blend", Range (0, 1)) = 0.8
+        // Grayscale level
+        _bwBlend ("Black & White blend", Range (0, 1)) = 0.65
 		_rg("Red -> Green", Range(0, 1)) = 0
 		_rb("Red -> Blue", Range(0, 1)) = 0
 		_gr("Green -> Red", Range(0, 1)) = 0
@@ -11,7 +12,6 @@ Shader "SimulationCamera" {
 		_br("Blue -> Red", Range(0, 1)) = 0
 		_bg("Blue -> Green", Range(0, 1)) = 0
 		_bb("Blue -> Blue", Range(0, 1)) = 0
-
 		_erg("Red -> Green", Range(0, 1)) = 0
 		_erb("Red -> Blue", Range(0, 1)) = 0
 		_egr("Green -> Red", Range(0, 1)) = 0
@@ -33,6 +33,7 @@ Shader "SimulationCamera" {
 
             uniform sampler2D _MainTex;
             uniform float _bwBlend;
+            /* SIMULATION */
             uniform float _rr;
             uniform float _gr;
             uniform float _br;
@@ -42,8 +43,7 @@ Shader "SimulationCamera" {
 			uniform float _rb;
 			uniform float _gb;
 			uniform float _bb;
-
-
+            /* DALTONIZATION */
 			uniform float _err;
 			uniform float _egr;
 			uniform float _ebr;
@@ -53,12 +53,19 @@ Shader "SimulationCamera" {
 			uniform float _erb;
 			uniform float _egb;
 			uniform float _ebb;
-
+            // 0: Magnifying glass mode 1: Full screen mode
             int fullScreen;
+            // 0: Daltonization 1: ColorPopper 2: Texture
+            int correctionMethod;
             float r;
             float g;
             float b;
-            // All components are in the range [0…1], including hue.
+            
+            /* 
+                RGB to HSV and vice-versa in HLSL can be found here:
+               http://lolengine.net/blog/2013/07/27/rgb-to-hsv-in-glsl
+               All components are in the range [0…1], including hue.
+            */
             float3 rgb2hsv(float3 c)
             {
                 float4 K = float4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
@@ -69,7 +76,7 @@ Shader "SimulationCamera" {
                 float e = 1.0e-10;
                 return float3(abs(q.z + (q.w - q.y) / (6.0 * d + e)), d / (q.x + e), q.x);
             }
-            // All components are in the range [0…1], including hue.
+            
             float3 hsv2rgb(float3 c)
             {
                 float4 K = float4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
@@ -84,61 +91,76 @@ Shader "SimulationCamera" {
 
                 color = saturate(color);
 				color = GammaToLinearSpace(color);
-				
-				/*
-				float r2 = color.r * 17.8824 + color.g * 43.5161 + color.b * 4.11935;
-				float g2 = color.r * 3.45565 + color.g * 27.1554 + color.b * 3.86714;
-				float b2 = color.r * 0.0299566 + color.g * 0.184309 + color.b * 1.46709;
-				float3 v = float3(r2, g2, b2);
-				v = saturate(v);
-				*/
-
+                
+                
+                /****************************************************************
+                STEP 1: SIMULATION
+                *****************************************************************/
 				r = color.r * _rr + color.g * _gr + color.b * _br;
 				g = color.r * _rg + color.g * _gg + color.b * _bg;
 				b = color.r * _rb + color.g * _gb + color.b * _bb;
-
-				// Put textures for the whole camera view only on fullScreen mode.
-				if(fullScreen == 1) {
-                	
-					float err_r = color.r - r;
-					float err_g = color.g - g;
-					float err_b = color.b - b;
-
-					float err_rate = 3;
-
-					err_r *= err_rate;
-					err_g *= err_rate;
-					err_b *= err_rate;
-
-
-					float r_shift = err_r * _err + err_g * _egr + err_b * _ebr;
-					float g_shift = err_r * _erg + err_g * _egg + err_b * _ebg;
-					float b_shift = err_r * _erb + err_g * _egb + err_b * _ebb;
-
-					r = color.r + r_shift;
-					g = color.g + g_shift;
-					b = color.b + b_shift;
-
-                } 
-				//c.rgb = (saturate(float3(r, g, b)));
-				c.rgb = (LinearToGammaSpace(saturate(float3(r, g, b))));
+                c.rgb = (LinearToGammaSpace(saturate(float3(r, g, b))));
                 
-                    //TODO: render new texture for specific pixels here. Use HSV for finding specific colors.
-                    float3 hsv_color = rgb2hsv(color);
-                    //if((hsv_color.x < 0.034 || hsv_color.x > 0.971) && (hsv_color.y > 0.78) && (hsv_color.z > 0.84) ) {
-                    if((hsv_color.x < 0.034 || hsv_color.x > 0.971) && (hsv_color.y > 0.78) && (hsv_color.z > 0.30) ) {
-                         r = 0.0;
-                         g = 0.0;
-                         b = 1.0;
-                         c.rgb = float3(r, g, b);
-                    } else {
-                     //float lum = color.r*.3 + color.g*.59 + color.b*.11;
-                     //float3 bw = float3( lum, lum, lum ); 
-                     //float4 result = c;
-                     //result.rgb = lerp(c.rgb, bw, _bwBlend);
-                     //c.rgb = result.rgb;
-                    }
+                
+                /****************************************************************
+                STEP 2: CORRECTION IN FULL SCREEN MODE
+                *****************************************************************/
+				if(fullScreen == 1) {
+                
+                    /* DALTONIZATION CORRECTION */
+                    if (correctionMethod == 0) {
+    					float err_r = color.r - r;
+    					float err_g = color.g - g;
+    					float err_b = color.b - b;
+
+    					float err_rate = 3;
+
+    					err_r *= err_rate;
+    					err_g *= err_rate;
+    					err_b *= err_rate;
+
+    					float r_shift = err_r * _err + err_g * _egr + err_b * _ebr;
+    					float g_shift = err_r * _erg + err_g * _egg + err_b * _ebg;
+    					float b_shift = err_r * _erb + err_g * _egb + err_b * _ebb;
+
+    					r = color.r + r_shift;
+    					g = color.g + g_shift;
+    					b = color.b + b_shift;
+                        c.rgb = (LinearToGammaSpace(saturate(float3(r, g, b))));
+                    } 
                     
+                    /* COLORPOPPER CORRECTION */
+                    else if (correctionMethod == 1) {
+                        // Convert to HSV Color Space and pop certain user-specified colors.
+                        float3 hsv_color = rgb2hsv(color);
+                        // TODO: detect what color the user wanted
+                        /* RED */
+                        if ((hsv_color.x < 0.034 || hsv_color.x > 0.971) && (hsv_color.y > 0.78) && (hsv_color.z > 0.30)) {
+                            // Keep the pixels of that color
+                            c.rgb = (LinearToGammaSpace(saturate(float3(r, g, b))));
+                         } else {
+                            // Dim down all other pixels
+                            float luminosity = color.r*.3 + color.g*.59 + color.b*.11;
+                            float3 bw = float3( luminosity, luminosity, luminosity); 
+                            c.rgb = lerp(c.rgb, bw, _bwBlend);
+                         }
+                    }     
+                    
+                    /* TEXTURE CORRECTION */
+                    else if (correctionMethod == 2){
+                        // Convert to HSV Color Space and put a texture on a user-specified color.
+                        float3 hsv_color = rgb2hsv(color);
+                        // TODO: detect what color the user wanted
+                        /* RED */
+                        if ((hsv_color.x < 0.034 || hsv_color.x > 0.971) && (hsv_color.y > 0.78) && (hsv_color.z > 0.30)) {
+                            // TODO: Put texture...
+                            r = 0.0;
+                            g = 0.0;
+                            b = 1.0;
+                            c.rgb = float3(r, g, b);
+                         }
+                    }
+                } 
                 return c;
             }
             ENDCG
