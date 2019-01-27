@@ -3,7 +3,7 @@ Shader "SimulationCamera" {
     Properties{
         _MainTex("Base (RGB)", 2D) = "white" {}
         // Grayscale level
-        _bwBlend ("Black & White blend", Range (0, 1)) = 0.75
+        _bwBlend ("Black & White blend", Range (0, 1)) = 0.8
 		_rg("Red -> Green", Range(0, 1)) = 0
 		_rb("Red -> Blue", Range(0, 1)) = 0
 		_gr("Green -> Red", Range(0, 1)) = 0
@@ -93,7 +93,6 @@ Shader "SimulationCamera" {
                 return c;
             }
            
-            
             float4 frag(v2f_img i) : COLOR{
                 float4 c = tex2D(_MainTex, i.uv);
                 float3 color = tex2D(_MainTex, i.uv).rgb;
@@ -153,16 +152,32 @@ Shader "SimulationCamera" {
                                     c = dim(color,c);
                                 }
                                 break;
+                             /* GREEN */
                             case 1:
-                            //TODO: testing values
-                                r = 0.0;
-                                g = 0.0;
-                                b = 1.0;
-                                c.rgb = float3(r, g, b);
+                                 if ((hsv_color.x < 0.4305 && hsv_color.x > 0.27) && (hsv_color.y > 0.75) && (hsv_color.z > 0.10)) {
+                                    // Keep the pixels of that color
+                                    c.rgb = (LinearToGammaSpace(saturate(float3(r, g, b))));
+                                 } else {
+                                    c = dim(color,c);
+                                 }
                                 break;
+                             /* BLUE */
                             case 2:
+                                 if ((0.527 < hsv_color.x && hsv_color.x  < 0.694) && (hsv_color.y > 0.75) && (hsv_color.z > 0.3)) {
+                                    // Keep the pixels of that color
+                                    c.rgb = (LinearToGammaSpace(saturate(float3(r, g, b))));
+                                 } else {
+                                    c = dim(color,c);
+                                 }
                                 break;
+                             /* YELLOW */
                             case 3:
+                                 if ((0.115 < hsv_color.x && hsv_color.x < 0.183) && (hsv_color.y > 0.50) && (hsv_color.z > 0.2)) {
+                                    // Keep the pixels of that color
+                                    c.rgb = (LinearToGammaSpace(saturate(float3(r, g, b))));
+                                 } else {
+                                    c = dim(color,c);
+                                 }
                                 break;
                             default:
                                 break;
@@ -183,12 +198,36 @@ Shader "SimulationCamera" {
                                     b = 1.0;
                                     c.rgb = float3(r, g, b);
                                 }
-                                break;   
+                                break;
+                            /* GREEN */  
                             case 1:
+                                if ((hsv_color.x < 0.4305 && hsv_color.x > 0.27) && (hsv_color.y > 0.75) && (hsv_color.z > 0.10)) {
+                                    // TODO: Put texture...
+                                    r = 0.0;
+                                    g = 0.0;
+                                    b = 1.0;
+                                    c.rgb = float3(r, g, b);
+                                 }
                                 break;
+                             /* BLUE */
                             case 2:
+                                if ((0.527 < hsv_color.x && hsv_color.x  < 0.694) && (hsv_color.y > 0.75) && (hsv_color.z > 0.3)) {
+                                    // TODO: Put texture...
+                                    r = 0.0;
+                                    g = 0.0;
+                                    b = 1.0;
+                                    c.rgb = float3(r, g, b);
+                                 }
                                 break;
+                             /* YELLOW */
                             case 3:
+                                if ((0.115 < hsv_color.x && hsv_color.x < 0.183) && (hsv_color.y > 0.50) && (hsv_color.z > 0.2)) {
+                                    // TODO: Put texture...
+                                    r = 0.0;
+                                    g = 0.0;
+                                    b = 1.0;
+                                    c.rgb = float3(r, g, b);
+                                 }
                                 break;
                             default:
                                 break;
