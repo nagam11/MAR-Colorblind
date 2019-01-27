@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using ExtensionMethods;
 
 public class CorrectionMethodDropDown : MonoBehaviour
 {
@@ -14,14 +15,23 @@ public class CorrectionMethodDropDown : MonoBehaviour
         if (index == 1)
         {
             Colorblind.correction_Method = 0;
+            GameObject parentObject = GameObject.Find("CanvasAR");
+            GameObject obj = parentObject.FindObject("Color Panel");
+            obj.SetActive(false);
         }
         else if (index == 2)
         {
             Colorblind.correction_Method = 1;
+            GameObject parentObject = GameObject.Find("CanvasAR");
+            GameObject obj = parentObject.FindObject("Color Panel");
+            obj.SetActive(true);
         }
         else if (index == 3)
         {
             Colorblind.correction_Method = 2;
+            GameObject parentObject = GameObject.Find("CanvasAR");
+            GameObject obj = parentObject.FindObject("Color Panel");
+            obj.SetActive(true);
         }
         else
         {
@@ -43,5 +53,25 @@ public class CorrectionMethodDropDown : MonoBehaviour
     void PopulateList()
     {
         dropdown.AddOptions(correction_methods);
+    }
+   
+}
+
+namespace ExtensionMethods
+{
+    public static class GO
+    {
+        public static GameObject FindObject(this GameObject parent, string name)
+        {
+            Transform[] trs = parent.GetComponentsInChildren<Transform>(true);
+            foreach (Transform t in trs)
+            {
+                if (t.name == name)
+                {
+                    return t.gameObject;
+                }
+            }
+            return null;
+        }
     }
 }

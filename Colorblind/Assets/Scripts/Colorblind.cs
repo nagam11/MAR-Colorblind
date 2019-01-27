@@ -372,9 +372,7 @@ void OnRenderImage(RenderTexture source, RenderTexture destination)
         material.SetFloat("_ebb", toErrBlue.z);
 
         material.SetInt("fullScreen", full_Screen);
-        //print(full_Screen);
-        material.SetInt("correctionMethod", correction_Method);
-        print(correction_Method);
+        material.SetInt("correctionMethod", correction_Method);       
         material.SetInt("Blindness Strength (Int)", Strength);
         Graphics.Blit(source, destination, material);
 }
@@ -387,4 +385,24 @@ public void NextMode()
 );
 
 }
+
+public void ChangeColor(string name)
+{
+    if (name == "red")
+        {
+            material.SetInt("selectedColor", 0);
+        }
+    else if (name == "green")
+        {
+            material.SetInt("selectedColor", 1);
+        }
+    else if (name == "blue")
+        {
+            material.SetInt("selectedColor", 2);
+        }
+    else if (name == "yellow")
+        {
+            material.SetInt("selectedColor", 3);
+        }
+    }
 }

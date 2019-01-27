@@ -108,8 +108,7 @@ Properties{
 				r = color.r + r_shift;
 				g = color.g + g_shift;
 				b = color.b + b_shift;
-
-				//c.rgb = (saturate(float3(err_r, err_g, err_b)));
+				
 				c.rgb = LinearToGammaSpace(saturate(float3(r, g, b)));
                 return c;
             }
