@@ -50,7 +50,7 @@ public class spawner : MonoBehaviour
         */
         if (GameObject.Find("ARCamera").GetComponent<InteractionMode>().mode == InteractionMode.CameraMode.Magnifying_Glass)
         {
-            if (Input.touchCount > 0)
+            if (Input.touchCount > 0)               
             {
                 if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
                 {

@@ -17,7 +17,7 @@ public class CorrectionMethodDropDown : MonoBehaviour
             Colorblind.correction_Method = 0;
             GameObject parentObject = GameObject.Find("CanvasAR");
             GameObject obj = parentObject.FindObject("Color Panel");
-            obj.SetActive(false);
+            obj.SetActive(false);           
         }
         else if (index == 2)
         {

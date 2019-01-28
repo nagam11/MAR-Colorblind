@@ -9,9 +9,9 @@ using System.Collections;
 public class MagnifyingGlass : MonoBehaviour
 {
     public enum Blindness { normal, protanopia, deuteranopia, tritanopia }
-    public static int full_Screen = Colorblind.full_Screen;
-    public static int correction_Method = Colorblind.correction_Method;
-    public static int selectedColor = Colorblind.selectedColor;
+    public static int full_Screen;
+    public static int correction_Method;
+    public static int selectedColor;
 
     public int Strenght = 10;
 
@@ -144,6 +144,9 @@ Simulation of Color Vision Deficiency.
     // Update is called once per frame
     void Update()
     {
+        full_Screen = Colorblind.full_Screen;
+        correction_Method = Colorblind.correction_Method;
+        selectedColor = Colorblind.selectedColor;
         Vector3 toRed = Vector3.zero;
         Vector3 toGreen = Vector3.zero;
         Vector3 toBlue = Vector3.zero;
@@ -373,6 +376,8 @@ Simulation of Color Vision Deficiency.
         rend.material.SetFloat("_ebb", toErrBlue.z);
         rend.material.SetInt("fullScreen", full_Screen);
         rend.material.SetInt("correctionMethod", correction_Method);
+        print(correction_Method);
+        print(Colorblind.correction_Method);
         rend.material.SetInt("selectedColor", selectedColor);
     }
 }

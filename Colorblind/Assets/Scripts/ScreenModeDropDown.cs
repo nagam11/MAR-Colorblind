@@ -15,10 +15,12 @@ public class ScreenModeDropDown : MonoBehaviour
         if (index == 1)
         {
             Colorblind.full_Screen = 1;
+            GameObject.Find("ARCamera").GetComponent<InteractionMode>().mode = InteractionMode.CameraMode.Full_Screen;
         }
         else if (index == 2)
         {
             Colorblind.full_Screen = 0;
+            GameObject.Find("ARCamera").GetComponent<InteractionMode>().mode = InteractionMode.CameraMode.Magnifying_Glass;
         }       
         else
         {
