@@ -10,6 +10,8 @@ public class Colorblind : MonoBehaviour
     // TODO: BUG??
     public static int full_Screen;
     public static int correction_Method;
+    // 0: red 1: green 2: blue 3: yellow
+    public static int selectedColor;
 
     [Range(1,10)]
     public int Strength = 10;
@@ -391,18 +393,22 @@ public void ChangeColor(string name)
     if (name == "red")
         {
             material.SetInt("selectedColor", 0);
+            selectedColor = 0;
         }
     else if (name == "green")
         {
             material.SetInt("selectedColor", 1);
+            selectedColor = 1;
         }
     else if (name == "blue")
         {
             material.SetInt("selectedColor", 2);
+            selectedColor = 2;
         }
     else if (name == "yellow")
         {
             material.SetInt("selectedColor", 3);
+            selectedColor = 3;
         }
     }
 }
