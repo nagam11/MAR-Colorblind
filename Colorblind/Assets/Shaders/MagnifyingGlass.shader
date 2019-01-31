@@ -159,7 +159,7 @@ Properties{
 							c.rgb = (LinearToGammaSpace(saturate(float3(r_shift, g_shift, b_shift))));
 						}
 						/* TEXTURE */
-						else {
+						else if (correctionMethod == 2) {
 							if (((((i.grabPos.x) * 50) % 2)<1) && ((((i.grabPos.y) * 50) % 2)<1))
 								c.rgb = (LinearToGammaSpace(saturate(float3(color.r, color.g, color.b))));
 							else {

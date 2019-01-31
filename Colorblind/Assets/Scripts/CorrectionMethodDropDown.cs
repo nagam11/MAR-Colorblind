@@ -43,14 +43,13 @@ public class CorrectionMethodDropDown : MonoBehaviour
         else
         {
             // TODO: Is Daltonization the standard one
-            Colorblind.correction_Method = 0;
+            //Colorblind.correction_Method = 0;
         }
     }
 
     void Start()
     {
         PopulateList();
-        Colorblind.correction_Method = 2;
     }
 
     void Update()
