@@ -117,7 +117,7 @@ Shader "SimulationCamera" {
                 *****************************************************************/
 				if(fullScreen == 1) {
                 
-                    /* DALTONIZATION & ENHANCING CORRECTION */
+					/* DALTONIZATION & TEXTURE & ENHANCING CORRECTION */
                     if (correctionMethod == 0 || correctionMethod == 2 || correctionMethod == 3) {
     					float err_r = color.r - r;
     					float err_g = color.g - g;
@@ -145,14 +145,12 @@ Shader "SimulationCamera" {
 						else if (correctionMethod == 3) {
 							c.rgb = (LinearToGammaSpace(saturate(float3(r_shift, g_shift, b_shift))));
 						}
+						/* TEXTURE */
 						else {
-							float4 c = tex2D(_MainTex, i.uv);
-							// Sample texture in four directions
-							c.rgb = (LinearToGammaSpace(saturate(float3(r, g, b))));
-							float3 left = tex2D(_MainTex, i.uv - float2(_MainTex_TexelSize.x, 0)).rgb;
-
-							if (left.r == c.rgb.r && left.g == c.rgb.g && left.b == c.rgb.b) {
-								c.rgb = (LinearToGammaSpace(saturate(float3(0, 0, color.b))));
+							if( ( ( ( (i.uv.x)*50) % 2 )<1 ) && ((((i.uv.y) * 50) % 2)<1))
+								c.rgb = (LinearToGammaSpace(saturate(float3(color.r, color.g, color.b))));
+							else {
+								c.rgb = (LinearToGammaSpace(saturate(float3(r, g, b))));
 							}
 						}
                     } 
@@ -203,12 +201,6 @@ Shader "SimulationCamera" {
                                 break;
                         }
                     }     
-                    
-                    /* TEXTURE CORRECTION 
-					else if (correctionMethod == 3){
-
-                    }
-					*/
                     
                 } 
                 return c;

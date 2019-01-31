@@ -6,7 +6,7 @@ using ExtensionMethods;
 public class CorrectionMethodDropDown : MonoBehaviour
 {
 
-    List<string> correction_methods = new List<string>() { "Select an Option", "Daltonization", "ColorPopper", "Texture" };
+    List<string> correction_methods = new List<string>() { "Select an Option", "Daltonization", "ColorPopper", "Texture", "Enhancing" };
 
     public Dropdown dropdown;
 
@@ -33,10 +33,17 @@ public class CorrectionMethodDropDown : MonoBehaviour
             GameObject obj = parentObject.FindObject("Color Panel");
             obj.SetActive(true);
         }
+        else if (index == 4)
+        {
+            Colorblind.correction_Method = 3;
+            GameObject parentObject = GameObject.Find("CanvasAR");
+            GameObject obj = parentObject.FindObject("Color Panel");
+            obj.SetActive(true);
+        }
         else
         {
             // TODO: Is Daltonization the standard one
-            //Colorblind.correction_Method = 0;
+            Colorblind.correction_Method = 0;
         }
     }
 

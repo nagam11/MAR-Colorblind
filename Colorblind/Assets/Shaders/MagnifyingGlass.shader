@@ -130,8 +130,8 @@ Properties{
 				b = color.r * _rb + color.g * _gb + color.b * _bb;
                 
                 if(fullScreen == 0) {
-				 /* DALTONIZATION & ENHANCING CORRECTION */
-					if (correctionMethod == 0 || correctionMethod == 3) {
+				 /* DALTONIZATION & TEXTURE & ENHANCING CORRECTION */
+					if (correctionMethod == 0 || correctionMethod == 2 || correctionMethod == 3) {
 						float err_r = color.r - r;
 						float err_g = color.g - g;
 						float err_b = color.b - b;
@@ -155,8 +155,16 @@ Properties{
 							c.rgb = (LinearToGammaSpace(saturate(float3(r, g, b))));
 						}
 						/* ENHANCING */
-						else {
+						else if (correctionMethod == 3) {
 							c.rgb = (LinearToGammaSpace(saturate(float3(r_shift, g_shift, b_shift))));
+						}
+						/* TEXTURE */
+						else {
+							if (((((i.grabPos.x) * 50) % 2)<1) && ((((i.grabPos.y) * 50) % 2)<1))
+								c.rgb = (LinearToGammaSpace(saturate(float3(color.r, color.g, color.b))));
+							else {
+								c.rgb = (LinearToGammaSpace(saturate(float3(r, g, b))));
+							}
 						}
 					}
                     
@@ -206,56 +214,7 @@ Properties{
                                 break;
                         }
                     }
-                     /* TEXTURE CORRECTION */
-                    else if (correctionMethod == 2){
-                        // Convert to HSV Color Space and put a texture on a user-specified color.
-                        float3 hsv_color = rgb2hsv(color);
-                        switch(selectedColor) {
-                            /* RED */
-                            case 0:
-                                if ((hsv_color.x < 0.034 || hsv_color.x > 0.971) && (hsv_color.y > 0.78) && (hsv_color.z > 0.30)) {
-                                    // TODO: Put texture...
-                                    r = 0.0;
-                                    g = 0.0;
-                                    b = 1.0;
-                                    c.rgb = float3(r, g, b);
-                                }
-                                break;
-                            /* GREEN */  
-                            case 1:
-                                if ((hsv_color.x < 0.4305 && hsv_color.x > 0.27) && (hsv_color.y > 0.75) && (hsv_color.z > 0.10)) {
-                                    // TODO: Put texture...
-                                    r = 0.0;
-                                    g = 0.0;
-                                    b = 1.0;
-                                    c.rgb = float3(r, g, b);
-                                 }
-                                break;
-                             /* BLUE */
-                            case 2:
-                                if ((0.527 < hsv_color.x && hsv_color.x  < 0.694) && (hsv_color.y > 0.75) && (hsv_color.z > 0.3)) {
-                                    // TODO: Put texture...
-                                    r = 0.0;
-                                    g = 0.0;
-                                    b = 1.0;
-                                    c.rgb = float3(r, g, b);
-                                 }
-                                break;
-                             /* YELLOW */
-                            case 3:
-                                if ((0.115 < hsv_color.x && hsv_color.x < 0.183) && (hsv_color.y > 0.50) && (hsv_color.z > 0.2)) {
-                                    // TODO: Put texture...
-                                    r = 0.0;
-                                    g = 0.0;
-                                    b = 1.0;
-                                    c.rgb = float3(r, g, b);
-                                 }
-                                break;
-                            default:
-                                break;
-                            }
-                         } 
-                  }
+                }
                 return c;
             }
             ENDCG
