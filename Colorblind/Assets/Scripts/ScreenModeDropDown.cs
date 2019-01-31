@@ -16,6 +16,8 @@ public class ScreenModeDropDown : MonoBehaviour
         {
             Colorblind.full_Screen = 1;
             GameObject.Find("ARCamera").GetComponent<InteractionMode>().mode = InteractionMode.CameraMode.Full_Screen;
+            Destroy(GameObject.Find("Clone"));
+                
         }
         else if (index == 2)
         {

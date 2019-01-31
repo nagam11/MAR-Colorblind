@@ -130,27 +130,35 @@ Properties{
 				b = color.r * _rb + color.g * _gb + color.b * _bb;
                 
                 if(fullScreen == 0) {
-                 /* DALTONIZATION CORRECTION */
-                    if (correctionMethod == 0) {
-                        float err_r = color.r - r;
-                        float err_g = color.g - g;
-                        float err_b = color.b - b;
+				 /* DALTONIZATION & ENHANCING CORRECTION */
+					if (correctionMethod == 0 || correctionMethod == 3) {
+						float err_r = color.r - r;
+						float err_g = color.g - g;
+						float err_b = color.b - b;
 
-                        float err_rate = 3;
+						float err_rate = 3;
 
-                        err_r *= err_rate;
-                        err_g *= err_rate;
-                        err_b *= err_rate;
+						err_r *= err_rate;
+						err_g *= err_rate;
+						err_b *= err_rate;
 
-                        float r_shift = err_r * _err + err_g * _egr + err_b * _ebr;
-                        float g_shift = err_r * _erg + err_g * _egg + err_b * _ebg;
-                        float b_shift = err_r * _erb + err_g * _egb + err_b * _ebb;
+						float r_shift = err_r * _err + err_g * _egr + err_b * _ebr;
+						float g_shift = err_r * _erg + err_g * _egg + err_b * _ebg;
+						float b_shift = err_r * _erb + err_g * _egb + err_b * _ebb;
 
-                        r = color.r + r_shift;
-                        g = color.g + g_shift;
-                        b = color.b + b_shift;
-                        c.rgb = (LinearToGammaSpace(saturate(float3(r, g, b))));
-                    }
+						r = color.r + r_shift;
+						g = color.g + g_shift;
+						b = color.b + b_shift;
+
+						/* DALTONIZATION */
+						if (correctionMethod == 0) {
+							c.rgb = (LinearToGammaSpace(saturate(float3(r, g, b))));
+						}
+						/* ENHANCING */
+						else {
+							c.rgb = (LinearToGammaSpace(saturate(float3(r_shift, g_shift, b_shift))));
+						}
+					}
                     
                      /* COLORPOPPER CORRECTION */
                     else if (correctionMethod == 1) {

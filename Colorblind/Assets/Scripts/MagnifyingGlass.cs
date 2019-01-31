@@ -376,8 +376,8 @@ Simulation of Color Vision Deficiency.
         rend.material.SetFloat("_ebb", toErrBlue.z);
         rend.material.SetInt("fullScreen", full_Screen);
         rend.material.SetInt("correctionMethod", correction_Method);
-        print(correction_Method);
-        print(Colorblind.correction_Method);
+        //print(correction_Method);
+        //print(Colorblind.correction_Method);
         rend.material.SetInt("selectedColor", selectedColor);
     }
 }

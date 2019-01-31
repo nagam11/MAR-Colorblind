@@ -62,6 +62,8 @@ Shader "SimulationCamera" {
             float r;
             float g;
             float b;
+
+			float4 _MainTex_TexelSize;
             
             /* 
                 RGB to HSV and vice-versa in HLSL can be found here:
@@ -115,8 +117,8 @@ Shader "SimulationCamera" {
                 *****************************************************************/
 				if(fullScreen == 1) {
                 
-                    /* DALTONIZATION CORRECTION */
-                    if (correctionMethod == 0) {
+                    /* DALTONIZATION & ENHANCING CORRECTION */
+                    if (correctionMethod == 0 || correctionMethod == 2 || correctionMethod == 3) {
     					float err_r = color.r - r;
     					float err_g = color.g - g;
     					float err_b = color.b - b;
@@ -134,7 +136,25 @@ Shader "SimulationCamera" {
     					r = color.r + r_shift;
     					g = color.g + g_shift;
     					b = color.b + b_shift;
-                        c.rgb = (LinearToGammaSpace(saturate(float3(r, g, b))));
+
+						/* DALTONIZATION */
+						if(correctionMethod == 0) {
+							c.rgb = (LinearToGammaSpace(saturate(float3(r, g, b))));
+						}
+						/* ENHANCING */
+						else if (correctionMethod == 3) {
+							c.rgb = (LinearToGammaSpace(saturate(float3(r_shift, g_shift, b_shift))));
+						}
+						else {
+							float4 c = tex2D(_MainTex, i.uv);
+							// Sample texture in four directions
+							c.rgb = (LinearToGammaSpace(saturate(float3(r, g, b))));
+							float3 left = tex2D(_MainTex, i.uv - float2(_MainTex_TexelSize.x, 0)).rgb;
+
+							if (left.r == c.rgb.r && left.g == c.rgb.g && left.b == c.rgb.b) {
+								c.rgb = (LinearToGammaSpace(saturate(float3(0, 0, color.b))));
+							}
+						}
                     } 
                     
                     /* COLORPOPPER CORRECTION */
@@ -184,55 +204,12 @@ Shader "SimulationCamera" {
                         }
                     }     
                     
-                    /* TEXTURE CORRECTION */
-                    else if (correctionMethod == 2){
-                        // Convert to HSV Color Space and put a texture on a user-specified color.
-                        float3 hsv_color = rgb2hsv(color);
-                        switch(selectedColor) {
-                            /* RED */
-                            case 0:
-                                if ((hsv_color.x < 0.034 || hsv_color.x > 0.971) && (hsv_color.y > 0.78) && (hsv_color.z > 0.30)) {
-                                    // TODO: Put texture...
-                                    r = 0.0;
-                                    g = 0.0;
-                                    b = 1.0;
-                                    c.rgb = float3(r, g, b);
-                                }
-                                break;
-                            /* GREEN */  
-                            case 1:
-                                if ((hsv_color.x < 0.4305 && hsv_color.x > 0.27) && (hsv_color.y > 0.75) && (hsv_color.z > 0.10)) {
-                                    // TODO: Put texture...
-                                    r = 0.0;
-                                    g = 0.0;
-                                    b = 1.0;
-                                    c.rgb = float3(r, g, b);
-                                 }
-                                break;
-                             /* BLUE */
-                            case 2:
-                                if ((0.527 < hsv_color.x && hsv_color.x  < 0.694) && (hsv_color.y > 0.75) && (hsv_color.z > 0.3)) {
-                                    // TODO: Put texture...
-                                    r = 0.0;
-                                    g = 0.0;
-                                    b = 1.0;
-                                    c.rgb = float3(r, g, b);
-                                 }
-                                break;
-                             /* YELLOW */
-                            case 3:
-                                if ((0.115 < hsv_color.x && hsv_color.x < 0.183) && (hsv_color.y > 0.50) && (hsv_color.z > 0.2)) {
-                                    // TODO: Put texture...
-                                    r = 0.0;
-                                    g = 0.0;
-                                    b = 1.0;
-                                    c.rgb = float3(r, g, b);
-                                 }
-                                break;
-                            default:
-                                break;
-                            }
+                    /* TEXTURE CORRECTION 
+					else if (correctionMethod == 3){
+
                     }
+					*/
+                    
                 } 
                 return c;
             }

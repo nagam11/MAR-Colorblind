@@ -139,6 +139,7 @@ public class Colorblind : MonoBehaviour
 void Awake()
 {       
 material = new Material(Shader.Find("SimulationCamera"));
+
 }
 
 public float changeStrength {
@@ -377,9 +378,10 @@ void OnRenderImage(RenderTexture source, RenderTexture destination)
         material.SetInt("correctionMethod", correction_Method);       
         material.SetInt("Blindness Strength (Int)", Strength);
         Graphics.Blit(source, destination, material);
-}
+        
+    }
 
-public void NextMode()
+    public void NextMode()
 {
     var length = System.Enum.GetNames(typeof(Blindness)).Length;
     blindness = (Blindness)(
