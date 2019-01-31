@@ -17,16 +17,17 @@ public class spawner : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
+    { 
         /*
+if (GameObject.Find("ARCamera").GetComponent<InteractionMode>().mode == InteractionMode.CameraMode.Magnifying_Glass) { 
         if (Input.GetMouseButtonDown(0))
         {
-            
+
             //Vector3 clickPosition = -Vector3.one;
             //clickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition + new Vector3(0, 0, 20f)); //5f
             //Instantiate(cube, clickPosition, Quaternion.identity);
             //Debug.Log(clickPosition);
-            
+
             Vector3 clickPosition = -Vector3.one;
             Vector3 v = Input.mousePosition;
             Debug.Log(v);
@@ -35,7 +36,23 @@ public class spawner : MonoBehaviour
             Instantiate(cube, clickPosition, Quaternion.identity);
             Debug.Log(clickPosition);
         }
-        */
+    }
+
+        if (GameObject.Find("ARCamera").GetComponent<InteractionMode>().mode == InteractionMode.CameraMode.Full_Screen)
+        {
+            //Destroy(GetComponent<MagnifyingGlass>());
+            clone = GameObject.FindWithTag("Magnifying Glass_Phone");
+            Vector3 position = GameObject.FindWithTag("Magnifying Glass_Phone").transform.position;
+            clone.transform.position = new Vector3((position.x + 100), (position.y + 100), 5f);
+
+            //new Vector2(magic.position.x, transform.position.y + offset), transform.rotation);
+
+            //clone = GameObject.FindWithTag("Magnifying Glass_Phone");
+            //Destroy(cube);
+
+            //Destroy(clone);
+        }
+
         /*
         if (Input.GetMouseButtonDown(0))
         {
@@ -47,6 +64,7 @@ public class spawner : MonoBehaviour
             Instantiate(cube, new Vector3(p.x, p.y, 0.0f), Quaternion.identity);
 
         }
+
         */
         if (GameObject.Find("ARCamera").GetComponent<InteractionMode>().mode == InteractionMode.CameraMode.Magnifying_Glass)
         {
@@ -75,6 +93,19 @@ public class spawner : MonoBehaviour
 
             }
         }
+        /*else if (GameObject.Find("ARCamera").GetComponent<InteractionMode>().mode == InteractionMode.CameraMode.Full_Screen)
+        {
+            //Destroy(GetComponent<MagnifyingGlass>());
+            //cube = GameObject.FindWithTag("Magnifying Glass_Phone");
+            //clone = GameObject.FindWithTag("Magnifying Glass_Phone");
+            //Destroy(cube);
+            //Destroy(clone);
+            //clone = GameObject.FindWithTag("Magnifying Glass_Phone");
+            //Vector3 position = GameObject.FindWithTag("Magnifying Glass_Phone").transform.position;
+            //clone.transform.position = new Vector3((position.x + 100), (position.y + 100), 5f);
+        }*/
+
+
         /*
         if (Input.touchCount > 0)
         {

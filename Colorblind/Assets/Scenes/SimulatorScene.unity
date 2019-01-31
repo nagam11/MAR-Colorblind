@@ -746,7 +746,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 987adac2780a448799bcd3d2da131ea5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mode: 1
+  mode: 0
 --- !u!1 &233162230
 GameObject:
   m_ObjectHideFlags: 0
@@ -4771,6 +4771,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 100000, guid: df504084feb9f4a169266313fcbf505c, type: 3}
       propertyPath: m_Name
+      value: Magnifying Glass_Phone
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: df504084feb9f4a169266313fcbf505c, type: 3}
+      propertyPath: m_TagString
       value: Magnifying Glass_Phone
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: df504084feb9f4a169266313fcbf505c, type: 3}

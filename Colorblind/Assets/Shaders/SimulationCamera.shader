@@ -174,7 +174,8 @@ Shader "SimulationCamera" {
                                 break;
                              /* GREEN */
                             case 1:
-                                 if ((hsv_color.x < 0.4305 && hsv_color.x > 0.27) && (hsv_color.y > 0.75) && (hsv_color.z > 0.10)) {
+                                 //if ((hsv_color.x < 0.4305 && hsv_color.x > 0.27) && (hsv_color.y > 0.75) && (hsv_color.z > 0.10)) {
+                                 if ((hsv_color.x < 0.45 && hsv_color.x > 0.27) && (hsv_color.y > 0.65) && (hsv_color.z > 0.10)) {
                                     // Keep the pixels of that color
                                     c.rgb = (LinearToGammaSpace(saturate(float3(r, g, b))));
                                  } else {
@@ -192,7 +193,8 @@ Shader "SimulationCamera" {
                                 break;
                              /* YELLOW */
                             case 3:
-                                 if ((0.115 < hsv_color.x && hsv_color.x < 0.183) && (hsv_color.y > 0.50) && (hsv_color.z > 0.2)) {
+                                 //if ((0.115 < hsv_color.x && hsv_color.x < 0.183) && (hsv_color.y > 0.60) && (hsv_color.z > 0.2)) {
+                                 if ((0.09 < hsv_color.x && hsv_color.x < 0.30)) {
                                     // Keep the pixels of that color
                                     c.rgb = (LinearToGammaSpace(saturate(float3(r, g, b))));
                                  } else {
