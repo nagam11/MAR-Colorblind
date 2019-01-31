@@ -87,7 +87,7 @@ public class colorName : MonoBehaviour
             showColorName("red");
         }
         /* GREEN */
-        if ((hsv_color.x < 0.4305 && hsv_color.x > 0.27) && (hsv_color.y > 0.6) && (hsv_color.z > 0.10))
+        if ((hsv_color.x < 0.45 && hsv_color.x > 0.27) && (hsv_color.y > 0.65) && (hsv_color.z > 0.10))
         {
             showColorName("green");
         }
@@ -97,12 +97,14 @@ public class colorName : MonoBehaviour
             showColorName("blue");
         }
         /* YELLOW */
-        if ((0.115 < hsv_color.x && hsv_color.x < 0.183) && (hsv_color.y > 0.50) && (hsv_color.z > 0.2))
+        //if ((0.115 < hsv_color.x && hsv_color.x < 0.183) && (hsv_color.y > 0.50) && (hsv_color.z > 0.2))
+        if ((0.09 < hsv_color.x && hsv_color.x < 0.30))
         {
-            showColorName("yellow");
-        }
-    }
 
+                showColorName("yellow");
+            }
+        
+    }
 
     void rgbtoText2(Color32 c)
     {
