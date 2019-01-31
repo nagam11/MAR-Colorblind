@@ -8,8 +8,8 @@ public class Colorblind : MonoBehaviour
     public Blindness blindness = Blindness.normal;
     // The attribute prevents the camera from rendering the correction in the whole frame if the magnifying glass is used.
     // TODO: BUG??
-    public static int full_Screen = 1;
-    public static int correction_Method = 0;
+    public static int full_Screen;
+    public static int correction_Method = 6;
     // 0: red 1: green 2: blue 3: yellow
     public static int selectedColor;
 
