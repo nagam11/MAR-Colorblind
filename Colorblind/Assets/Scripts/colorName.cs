@@ -20,7 +20,6 @@ public class colorName : MonoBehaviour
 
     void Update()
     {
-        /*
         if (Input.GetMouseButtonDown(0))
         {
             Camera camera = Camera.main;
@@ -40,7 +39,7 @@ public class colorName : MonoBehaviour
             Destroy(rt);
             Destroy(screenShot);
         }
-        */
+        /*
         if (Input.touchCount > 0)
         {
             if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
@@ -70,11 +69,11 @@ public class colorName : MonoBehaviour
                 textValue[0].text = "";
             }
         }
-        
+        */
     }
 
 
-    void rgbtoText2(Color c)
+    void rgbtoText(Color c)
     {
         float H, S, V;
         Color.RGBToHSV(c, out H, out S, out V);
@@ -83,12 +82,12 @@ public class colorName : MonoBehaviour
         print(hsv_color.y);
         print(hsv_color.z);
         /* RED */
-        if ((hsv_color.x < 0.034 || hsv_color.x > 0.971) && (hsv_color.y > 0.78) && (hsv_color.z > 0.30))
+        if ((hsv_color.x < 0.034 || hsv_color.x > 0.8) && (hsv_color.y > 0.78) && (hsv_color.z > 0.30))
         {
             showColorName("red");
         }
         /* GREEN */
-        if ((hsv_color.x < 0.4305 && hsv_color.x > 0.27) && (hsv_color.y > 0.75) && (hsv_color.z > 0.10))
+        if ((hsv_color.x < 0.4305 && hsv_color.x > 0.27) && (hsv_color.y > 0.6) && (hsv_color.z > 0.10))
         {
             showColorName("green");
         }
@@ -105,28 +104,28 @@ public class colorName : MonoBehaviour
     }
 
 
-    void rgbtoText(Color32 c)
+    void rgbtoText2(Color32 c)
     {
         print(c.r);
         print(c.g);
         print(c.b);
         /* RED */
-        if (c.r > 100 && c.g < 64 && c.b < 64)
+        if (c.r > 0.6 && c.g < 0.4 && c.b < 0.4)
         {
             showColorName("red");
         }
         /* GREEN */
-        if (c.r < 64 && c.g > 100 && c.b < 64)
+        if (c.r < 0.4 && c.g > 0.6 && c.b < 0.4)
         {
             showColorName("green");
         }
         /* BLUE */
-        if (c.r < 64 && c.g < 64 && c.b > 100)
+        if (c.r < 0.4 && c.g < 0.4 && c.b > 0.6)
         {
             showColorName("blue");
         }
         /* YELLOW */
-        if (c.r > 0.8 && c.g > 0.8 && c.b < 0.4)
+        if (c.r > 0.6 && c.g > 0.6 && c.b < 0.4)
         {
             showColorName("yellow");
         }
