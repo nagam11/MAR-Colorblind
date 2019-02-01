@@ -14,20 +14,23 @@ public class AnomalyTypeDropDown : MonoBehaviour
         if (index == 1) // deutranopia
         {
             GameObject.Find("ARCamera").GetComponent<Colorblind>().blindness = Colorblind.Blindness.deuteranopia;
-            
+            colorName.whichColor = 0;
         }
         else if (index == 2)
         {
-            GameObject.Find("ARCamera").GetComponent<Colorblind>().blindness = Colorblind.Blindness.protanopia;     
+            GameObject.Find("ARCamera").GetComponent<Colorblind>().blindness = Colorblind.Blindness.protanopia;
+            colorName.whichColor = 0;
 
         }
         else if (index == 3)
         {
             GameObject.Find("ARCamera").GetComponent<Colorblind>().blindness = Colorblind.Blindness.tritanopia;
+            colorName.whichColor = 0;
         }
         else
         {
             GameObject.Find("ARCamera").GetComponent<Colorblind>().blindness = Colorblind.Blindness.normal;
+            colorName.whichColor = 1;
         }
     }
     // Start is called before the first frame update

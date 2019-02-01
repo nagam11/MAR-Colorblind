@@ -62,6 +62,7 @@ Shader "SimulationCamera" {
             float r;
             float g;
             float b;
+			uniform int simulated;
 
 			float4 _MainTex_TexelSize;
             
@@ -94,7 +95,7 @@ Shader "SimulationCamera" {
                 c.rgb = lerp(c.rgb, bw, _bwBlend);
                 return c;
             }
-           
+
             float4 frag(v2f_img i) : COLOR{
                 float4 c = tex2D(_MainTex, i.uv);
                 float3 color = tex2D(_MainTex, i.uv).rgb;
@@ -148,10 +149,15 @@ Shader "SimulationCamera" {
 						/* TEXTURE */
 						else if (correctionMethod == 2) {
 							if( ( ( ( (i.uv.x)*50) % 2 )<1 ) && ((((i.uv.y) * 50) % 2)<1))
-								c.rgb = (LinearToGammaSpace(saturate(float3(color.r, color.g, color.b))));
-							else {
 								c.rgb = (LinearToGammaSpace(saturate(float3(r, g, b))));
-							}
+							else 
+								c.rgb = (LinearToGammaSpace(saturate(float3(color.r, color.g, color.b))));
+						}
+						if (simulated) {
+							r = c.r * _rr + c.g * _gr + c.b * _br;
+							g = c.r * _rg + c.g * _gg + c.b * _bg;
+							b = c.r * _rb + c.g * _gb + c.b * _bb;
+							c.rgb = (LinearToGammaSpace(saturate(float3(r, g, b))));
 						}
                     } 
                     

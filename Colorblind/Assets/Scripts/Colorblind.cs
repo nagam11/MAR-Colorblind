@@ -12,6 +12,7 @@ public class Colorblind : MonoBehaviour
     public static int correction_Method = 6;
     // 0: red 1: green 2: blue 3: yellow
     public static int selectedColor;
+    public static int simulated;
 
     [Range(1,10)]
     public int Strength = 10;
@@ -376,6 +377,7 @@ void OnRenderImage(RenderTexture source, RenderTexture destination)
 
         material.SetInt("fullScreen", full_Screen);
         material.SetInt("correctionMethod", correction_Method);       
+        material.SetInt("simulated", simulated);       
         material.SetInt("Blindness Strength (Int)", Strength);
         Graphics.Blit(source, destination, material);
         
