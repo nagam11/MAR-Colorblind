@@ -117,7 +117,8 @@ public class colorName : MonoBehaviour
         float fx, fy, fz, xr, yr, zr;
         float Ls, As, Bs;
         float eps = 0.008856f;
-        float k = 903.2963f;
+        //float k = 903.2963f;
+        float k = 7.787f;
 
         float r = 255 * Mathf.Pow(c.r, 2.2f);
         float g = 255 * Mathf.Pow(c.g, 2.2f);
@@ -128,20 +129,24 @@ public class colorName : MonoBehaviour
         float b = c.b;
         */
 
-        if (r > eps) fx = Mathf.Pow(r, 1 / 3);
+        if (r > eps) fx = Mathf.Pow(r, 0.3f);
         else fx = ((k * r) + 16f) / 116f;
-        if (g > eps) fy = Mathf.Pow(g, 1 / 3);
+        if (g > eps) fy = Mathf.Pow(g, 0.3f);
         else fy = ((k * g) + 16f) / 116f;
-        if (b > eps) fz = Mathf.Pow(b, 1 / 3);
+        if (b > eps) fz = Mathf.Pow(b, 0.3f);
         else fz = ((k * b) + 16f) / 116f;
 
         Ls = (116f * fy) - 16f;
         As = 500f * (fx - fy);
         Bs = 200f * (fy - fz);
-
+        /*
         xr = (2.55f * Ls + 0.5f);
         yr = (As + 0.5f);
         zr = (Bs + 0.5f);
+        */
+        xr = Ls;
+        yr = As;
+        zr = Bs;
 
         return (new Vector3(xr, yr, zr));
 
@@ -286,7 +291,6 @@ public class colorName : MonoBehaviour
             }
         }
         showColorName(nameC);
-        print(diff);
     }
 
     void showColorName(string n)
