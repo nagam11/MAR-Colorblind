@@ -116,37 +116,38 @@ public class colorName : MonoBehaviour
     {
         float fx, fy, fz, xr, yr, zr;
         float Ls, As, Bs;
-        float eps = 0.008856f;
+        float eps = 216f / 24389f;
         //float k = 903.2963f;
-        float k = 7.787f;
+        float k = 24389f / 27f;
 
-        float r = 255 * Mathf.Pow(c.r, 2.2f);
-        float g = 255 * Mathf.Pow(c.g, 2.2f);
-        float b = 255 * Mathf.Pow(c.b, 2.2f);
+        float r = Mathf.Pow(c.r, 2.2f);
+        float g = Mathf.Pow(c.g, 2.2f);
+        float b = Mathf.Pow(c.b, 2.2f);
         /*
         float r = c.r;
         float g = c.g;
         float b = c.b;
         */
 
-        if (r > eps) fx = Mathf.Pow(r, 0.3f);
+        if (r > eps) fx = Mathf.Pow(r, 1f / 3f);
         else fx = ((k * r) + 16f) / 116f;
-        if (g > eps) fy = Mathf.Pow(g, 0.3f);
+        if (g > eps) fy = Mathf.Pow(g, 1f / 3f);
         else fy = ((k * g) + 16f) / 116f;
-        if (b > eps) fz = Mathf.Pow(b, 0.3f);
+        if (b > eps) fz = Mathf.Pow(b, 1f / 3f);
         else fz = ((k * b) + 16f) / 116f;
 
         Ls = (116f * fy) - 16f;
         As = 500f * (fx - fy);
         Bs = 200f * (fy - fz);
-        /*
+
         xr = (2.55f * Ls + 0.5f);
         yr = (As + 0.5f);
         zr = (Bs + 0.5f);
-        */
+        /*
         xr = Ls;
         yr = As;
         zr = Bs;
+        */
 
         return (new Vector3(xr, yr, zr));
 
@@ -161,10 +162,10 @@ public class colorName : MonoBehaviour
 
     void checkColor(Color c)
     {
-        float minDiff = float.MaxValue;
+        float minDiff = 70;
         float diff = float.MaxValue;
-        string nameC = "";
-        for(int i=0; i<16; i++)
+        string nameC = "Not sure";
+        for(int i=0; i<17; i++)
         {
             switch (i)
             {
@@ -288,9 +289,34 @@ public class colorName : MonoBehaviour
                         minDiff = diff;
                     }
                     break;
+                case 16:
+                    diff = diffColors(c, new Color(1f, 0.8f, 0.9f, 1f));
+                    if (diff < minDiff)
+                    {
+                        nameC = "pink";
+                        minDiff = diff;
+                    }
+                    break;
+                case 17:
+                    diff = diffColors(c, new Color(0.5f, 0.3f, 0.04f, 1f));
+                    if (diff < minDiff)
+                    {
+                        nameC = "brown";
+                        minDiff = diff;
+                    }
+                    break;
+                case 18:
+                    diff = diffColors(c, new Color(0.5f, 0.3f, 0.04f, 1f));
+                    if (diff < minDiff)
+                    {
+                        nameC = "brown";
+                        minDiff = diff;
+                    }
+                    break;
             }
         }
         showColorName(nameC);
+        print(minDiff);
     }
 
     void showColorName(string n)
