@@ -6,7 +6,7 @@ using ExtensionMethods;
 public class CorrectionMethodDropDown : MonoBehaviour
 {
 
-    List<string> correction_methods = new List<string>() { "Select an Option", "Daltonization", "ColorPopper", "Texture", "Enhancing" };
+    List<string> correction_methods = new List<string>() { "No correction", "Daltonization", "ColorPopper", "Texture", "Enhancing" };
 
     public Dropdown dropdown;
 

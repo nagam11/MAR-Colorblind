@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class AnomalyTypeDropDown : MonoBehaviour
 {
 
-    List<string> names = new List<string>() { "Select an Option", "Deutranopia", "Protanopia", "Tritanopia" };
+    List<string> names = new List<string>() { "Normal", "Deutranopia", "Protanopia", "Tritanopia" };
 
     public Dropdown dropdown;
 
