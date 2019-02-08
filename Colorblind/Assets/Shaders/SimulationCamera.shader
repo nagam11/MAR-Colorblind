@@ -3,7 +3,7 @@ Shader "SimulationCamera" {
     Properties{
         _MainTex("Base (RGB)", 2D) = "white" {}
         // Grayscale level
-        _bwBlend ("Black & White blend", Range (0, 1)) = 0.8
+        _bwBlend ("Black & White blend", Range (0, 1)) = 0.9
 		_rg("Red -> Green", Range(0, 1)) = 0
 		_rb("Red -> Blue", Range(0, 1)) = 0
 		_gr("Green -> Red", Range(0, 1)) = 0

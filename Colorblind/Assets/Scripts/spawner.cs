@@ -18,13 +18,12 @@ public class spawner : MonoBehaviour
     {
         if (clone != null)
             Destroy(clone);
-        Debug.Log("click");
         flag = 1;
     }
 
     public void buttonSaveHandler()
     {
-        Debug.Log("saved");
+
         flag = 0;
     }
 
@@ -78,14 +77,15 @@ public class spawner : MonoBehaviour
             }
 
         }
-
-        if(GameObject.Find("Save Button").GetComponent<Button>())
+        if (flag == 1)
         {
-            _buttonSave = GameObject.Find("Save Button").GetComponent<Button>();
-            _buttonSave.onClick.AddListener(buttonSaveHandler);
+            if (GameObject.Find("Save Button").GetComponent<Button>())
+            {
+                _buttonSave = GameObject.Find("Save Button").GetComponent<Button>();
+                _buttonSave.onClick.AddListener(buttonSaveHandler);
+            }
+
         }
-       
-       
 
 
         /*else if (GameObject.Find("ARCamera").GetComponent<InteractionMode>().mode == InteractionMode.CameraMode.Full_Screen)
