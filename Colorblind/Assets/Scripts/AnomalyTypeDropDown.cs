@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using ExtensionMethods;
 
 public class AnomalyTypeDropDown : MonoBehaviour
 {
@@ -15,22 +16,34 @@ public class AnomalyTypeDropDown : MonoBehaviour
         {
             Colorblind.blindness = Colorblind.Blindness.deuteranopia;
             colorName.whichColor = 0;
+            GameObject parentObject = GameObject.Find("CanvasAR");
+            GameObject label = parentObject.FindObject("ColorNameSpace");
+            label.SetActive(false);
         }
         else if (index == 2)
         {
             Colorblind.blindness = Colorblind.Blindness.protanopia;
             colorName.whichColor = 0;
+            GameObject parentObject = GameObject.Find("CanvasAR");
+            GameObject label = parentObject.FindObject("ColorNameSpace");
+            label.SetActive(false);
 
         }
         else if (index == 3)
         {
             Colorblind.blindness = Colorblind.Blindness.tritanopia;
             colorName.whichColor = 0;
+            GameObject parentObject = GameObject.Find("CanvasAR");
+            GameObject label = parentObject.FindObject("ColorNameSpace");
+            label.SetActive(false);
         }
         else
         {
             Colorblind.blindness = Colorblind.Blindness.normal;
             colorName.whichColor = 1;
+            GameObject parentObject = GameObject.Find("CanvasAR");
+            GameObject label = parentObject.FindObject("ColorNameSpace");
+            label.SetActive(true);
         }
     }
     // Start is called before the first frame update

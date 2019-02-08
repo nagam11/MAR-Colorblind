@@ -19,6 +19,8 @@ public class CorrectionMethodDropDown : MonoBehaviour
             GameObject parentObject = GameObject.Find("CanvasAR");
             GameObject obj = parentObject.FindObject("Color Panel");
             obj.SetActive(false);
+            GameObject label = parentObject.FindObject("ColorNameSpace");
+            label.SetActive(false);
         }
         else if (index == 2)
         {
@@ -26,6 +28,8 @@ public class CorrectionMethodDropDown : MonoBehaviour
             GameObject parentObject = GameObject.Find("CanvasAR");
             GameObject obj = parentObject.FindObject("Color Panel");
             obj.SetActive(true);
+            GameObject label = parentObject.FindObject("ColorNameSpace");
+            label.SetActive(false);
         }
         else if (index == 3)
         {
@@ -33,6 +37,8 @@ public class CorrectionMethodDropDown : MonoBehaviour
             GameObject parentObject = GameObject.Find("CanvasAR");
             GameObject obj = parentObject.FindObject("Color Panel");
             obj.SetActive(false);
+            GameObject label = parentObject.FindObject("ColorNameSpace");
+            label.SetActive(false);
         }
         else if (index == 4)
         {
@@ -40,6 +46,8 @@ public class CorrectionMethodDropDown : MonoBehaviour
             GameObject parentObject = GameObject.Find("CanvasAR");
             GameObject obj = parentObject.FindObject("Color Panel");
             obj.SetActive(false);
+            GameObject label = parentObject.FindObject("ColorNameSpace");
+            label.SetActive(false);
         }
         else
         {
@@ -48,6 +56,8 @@ public class CorrectionMethodDropDown : MonoBehaviour
             GameObject parentObject = GameObject.Find("CanvasAR");
             GameObject obj = parentObject.FindObject("Color Panel");
             obj.SetActive(false);
+            GameObject label = parentObject.FindObject("ColorNameSpace");
+            label.SetActive(true);
         }
     }
 
