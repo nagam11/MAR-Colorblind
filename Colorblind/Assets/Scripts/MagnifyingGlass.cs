@@ -157,7 +157,7 @@ Simulation of Color Vision Deficiency.
         //int Strength = Colorblind.Strength;
         // Change the rendering of the magnifying glass according to the blindness type selected in the AR Camera.
         //TODO: doesn't work with normal vision. it needs parameters of which colorblind has to simulate
-        switch (GameObject.Find("ARCamera").GetComponent<Colorblind>().blindness)
+        switch (Colorblind.blindness)
         {
             case Colorblind.Blindness.protanopia:
                 toErrRed = protanomalyErrMapRed;

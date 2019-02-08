@@ -14,14 +14,14 @@ public class ScreenModeDropDown : MonoBehaviour
         if (index == 0)
         {
             Colorblind.full_Screen = 1;
-            GameObject.Find("ARCamera").GetComponent<InteractionMode>().mode = InteractionMode.CameraMode.Full_Screen;
+            InteractionMode.mode = InteractionMode.CameraMode.Full_Screen;
             Destroy(GameObject.Find("Clone"));
                 
         }
         else if (index == 1)
         {
             Colorblind.full_Screen = 0;
-            GameObject.Find("ARCamera").GetComponent<InteractionMode>().mode = InteractionMode.CameraMode.Magnifying_Glass;
+            InteractionMode.mode = InteractionMode.CameraMode.Magnifying_Glass;
         }       
         else
         {

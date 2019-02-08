@@ -43,7 +43,7 @@ public class spawner : MonoBehaviour
         if (flag == 0)
         {
 
-            if (GameObject.Find("ARCamera").GetComponent<InteractionMode>().mode == InteractionMode.CameraMode.Magnifying_Glass)
+            if (InteractionMode.mode == InteractionMode.CameraMode.Magnifying_Glass)
             {
                 if (Input.touchCount > 0)
                 {

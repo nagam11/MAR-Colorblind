@@ -13,23 +13,23 @@ public class AnomalyTypeDropDown : MonoBehaviour
     {
         if (index == 1) // deutranopia
         {
-            GameObject.Find("ARCamera").GetComponent<Colorblind>().blindness = Colorblind.Blindness.deuteranopia;
+            Colorblind.blindness = Colorblind.Blindness.deuteranopia;
             colorName.whichColor = 0;
         }
         else if (index == 2)
         {
-            GameObject.Find("ARCamera").GetComponent<Colorblind>().blindness = Colorblind.Blindness.protanopia;
+            Colorblind.blindness = Colorblind.Blindness.protanopia;
             colorName.whichColor = 0;
 
         }
         else if (index == 3)
         {
-            GameObject.Find("ARCamera").GetComponent<Colorblind>().blindness = Colorblind.Blindness.tritanopia;
+            Colorblind.blindness = Colorblind.Blindness.tritanopia;
             colorName.whichColor = 0;
         }
         else
         {
-            GameObject.Find("ARCamera").GetComponent<Colorblind>().blindness = Colorblind.Blindness.normal;
+            Colorblind.blindness = Colorblind.Blindness.normal;
             colorName.whichColor = 1;
         }
     }
@@ -37,7 +37,7 @@ public class AnomalyTypeDropDown : MonoBehaviour
     void Start()
     {
         PopulateList();
-        GameObject.Find("ARCamera").GetComponent<Colorblind>().blindness = Colorblind.Blindness.normal;
+        Colorblind.blindness = Colorblind.Blindness.normal;
     }
 
     // Update is called once per frame

@@ -13,12 +13,12 @@ public class CorrectionMethodDropDown : MonoBehaviour
     public void DropDown_IndexChanged(int index)
     {
 
-        if (index == 0 || index == 1 || index == 3 || index == 4)
+        if (index == 1)
         {
             Colorblind.correction_Method = 0;
             GameObject parentObject = GameObject.Find("CanvasAR");
             GameObject obj = parentObject.FindObject("Color Panel");
-            obj.SetActive(false);           
+            obj.SetActive(false);
         }
         else if (index == 2)
         {
@@ -26,11 +26,28 @@ public class CorrectionMethodDropDown : MonoBehaviour
             GameObject parentObject = GameObject.Find("CanvasAR");
             GameObject obj = parentObject.FindObject("Color Panel");
             obj.SetActive(true);
-        }       
+        }
+        else if (index == 3)
+        {
+            Colorblind.correction_Method = 2;
+            GameObject parentObject = GameObject.Find("CanvasAR");
+            GameObject obj = parentObject.FindObject("Color Panel");
+            obj.SetActive(false);
+        }
+        else if (index == 4)
+        {
+            Colorblind.correction_Method = 3;
+            GameObject parentObject = GameObject.Find("CanvasAR");
+            GameObject obj = parentObject.FindObject("Color Panel");
+            obj.SetActive(false);
+        }
         else
         {
-            // TODO: Is Daltonization the standard one
+            // Don't correct if not anything selected
             Colorblind.correction_Method = 6;
+            GameObject parentObject = GameObject.Find("CanvasAR");
+            GameObject obj = parentObject.FindObject("Color Panel");
+            obj.SetActive(false);
         }
     }
 

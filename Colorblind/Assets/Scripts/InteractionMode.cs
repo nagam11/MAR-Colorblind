@@ -6,7 +6,7 @@ public class InteractionMode : MonoBehaviour
 {
     public enum CameraMode { Full_Screen, Magnifying_Glass}
     //public CameraMode mode = CameraMode.Full_Screen;
-    public CameraMode mode;
+    public static CameraMode mode;
 
     // Use this for initialization
     void Start()

@@ -5,7 +5,7 @@ using System.Collections;
 public class Colorblind : MonoBehaviour
 {
     public enum Blindness { normal, protanopia, deuteranopia, tritanopia }
-    public Blindness blindness = Blindness.normal;
+    public static Blindness blindness = Blindness.normal;
     // The attribute prevents the camera from rendering the correction in the whole frame if the magnifying glass is used.
     // TODO: BUG??
     public static int full_Screen;
