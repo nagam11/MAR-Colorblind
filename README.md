@@ -17,13 +17,13 @@ There are three main deficiencies:
 ## Use Cases
 Our application addresses two main use cases for people that suffer from color deficiency. 
 
-###Distinguishing colors
+### Distinguishing colors
 In this modality, the user wants to distinguish between colors along the axis of color space for which they have limited discrimination. Hence, color recognition is not required.
 
-###Color recognition and selection
+### Color recognition and selection
 In this modality, the user wants to know the normal color of an object in the scene or wants to highlight a specific user-selected color. 
 
-####Modalities
+#### Modalities
 *Simulation*: this scene allows people with normal vision to experience color deficiency.
 
 *Correction*: this scene assists people with color deficiency while relying on following correction techniques.
@@ -34,11 +34,13 @@ Shifting of the colors in order to improve the color perception by a color-defic
 Implementation is based on the [LMS daltonization algorithm](http://www.daltonize.org/2010/05/lms-daltonization-algorithm.html). 
 
 <img src="Daltonization.png" height="200">
+
 ### ColorPopper
 Pop out specific user-selected colors and suppress the brightness of all other colors. 
 The implementation is based on the paper "ColourID: Improving Colour Identification for People with Impaired Colour Vision" by [Flatla et. al](https://dl.acm.org/citation.cfm?id=2702578). 
 
 <img src="colorpopper.png" height="250">
+
 ### Color Label
 By using touch input, the user can get the name of the color at the touched location. The output is provided as a written label on screen.
 
